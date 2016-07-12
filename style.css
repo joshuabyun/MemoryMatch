@@ -81,7 +81,7 @@ header li{
     display: block;
     position:relative;
 }
-.label{
+.label, .value{
     font-size:1.2em;
     color:white;
 }
@@ -120,6 +120,10 @@ header li{
 .back > img{
     display: inline-block;
     height:12.5vw;
+}
+.you_won{
+    font-size:initial;
+    color:black;
 }
 /* ---------------- */
 #about_body{
