@@ -124,6 +124,7 @@ header li{
 .you_won{
     font-size:initial;
     color:black;
+    position:absolute;
 }
 /* ---------------- */
 #about_body{
