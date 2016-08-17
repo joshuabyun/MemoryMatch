@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app = 'myApp'>
 <head>
     <meta charset="UTF-8">
     <title>Memory Matching</title>
@@ -8,10 +8,11 @@
     <!--<script src="http://learning-fuze.github.io/memory_match/v0.1/script.js"></script>-->
     <meta name="Author" content="Joshua Byun">
     <meta name="Description" content="Matching Robot Game">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
     <script src="script.js"></script>
 
 </head>
-<body>
+<body ng-controller = "cardController as cc">
 <!-- Header Container -->
 <header>
     <div class="img">
@@ -40,82 +41,14 @@
         <div class="value"></div>
     </div>
     <div class="reset_btn_container">
-        <button class="reset">Reset Game</button>
+        <button class="reset" ng-click="cc.randomSort()">Reset Game</button>
     </div>
 </section>
 <!-- Game Area -->
 <section id="game-area">
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva00_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva00_01.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva01_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva01_01.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva02_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva02_01.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva06_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/eva_series_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva02_02.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva00_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva00_01.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva01_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva01_01.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva02_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva02_01.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva06_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/eva_series_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva02_02.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
+    <div class="card" ng-click="cc.card_clicked()" ng-repeat="item in cc.imgArr track by $index">
+        <div class="front"><img ng-src="{{item}}"></div>
+        <!--<div class="back"><img src="images/nerv.png"></div>-->
     </div>
 </section>
 </body>
