@@ -5,15 +5,12 @@
     <title>Memory Matching</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <!--<script src="http://learning-fuze.github.io/memory_match/v0.1/script.js"></script>-->
     <meta name="Author" content="Joshua Byun">
     <meta name="Description" content="Matching Robot Game">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
     <script src="script.js"></script>
-
 </head>
 <body ng-controller = "cardController as cc">
-<!-- Header Container -->
 <header>
     <div class="img">
         <img src="../memory_match/images/evangelion_main.jpg">
@@ -26,7 +23,6 @@
         </ul>
     </div>
 </header>
-<!-- Stats Container -->
 <section class="stats_container">
     <div class="games-played">
         <div class="label">Games Played</div>
@@ -44,11 +40,10 @@
         <button class="reset" ng-click="cc.randomSort()">Reset Game</button>
     </div>
 </section>
-<!-- Game Area -->
 <section id="game-area">
-    <div class="card" ng-repeat="item in cc.cardObj track by $index" ng-click="cc.card_clicked(this)">
-        <div class="front"><img ng-src="{{item.frontImg}}" ng-hide="item['hideFrontCard']"></div>
-        <div class="back"><img ng-src="{{item.backImg}}" ng-hide="item['showFrontCard']"></div>
+    <div class="card" ng-repeat="item in cc.cardObjArr track by $index" ng-click="cc.card_clicked(this.item)">
+        <div class="front"><img ng-src="{{item.frontImg}}"></div>
+        <div class="back"><img ng-src="{{item.backImg}}" ng-hide="item.showFrontCard"></div>
     </div>
 </section>
 </body>

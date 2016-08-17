@@ -1,92 +1,71 @@
-/**
- * Created by Gina on 7/11/2016.
- */
-/**
- * Created by Gina on 7/7/2016.
- */
 var app = angular.module('myApp',[]);
-app.controller('cardController',function(){
-    this.imgArr = [];
-    this.cardObj = [];
+app.controller('cardController',function($timeout){
+    this.cardObjArr = [];
+    this.clickedElements =[];
     this.first_card_clicked = null;
     this.two_cards_clicked = false;
-    this.randomSort = function(){ //to display different cards
+    this.randomSort = function(){
         var oldArr =
             ['images/active_eva00_00.png','images/active_eva00_01.png','images/active_eva01_00.png',
              'images/active_eva01_01.png','images/active_eva02_00.png','images/active_eva02_01.png',
              'images/active_eva06_00.png','images/eva_series_00.png','images/active_eva02_02.png'];
-        var newArr = oldArr.concat(oldArr);
-        for(var i = newArr.length; i > 0; i--){
+        oldArr = oldArr.concat(oldArr);
+        for(var i = oldArr.length; i > 0; i--){
+            var obj = {};
             var randomNum = Math.floor(Math.random()*i);
-            this.imgArr.push(newArr[randomNum]);
-            newArr.splice(randomNum,1);
-        }
-        console.log(this.imgArr.length);
-        return this.imgArr;
+            obj.frontImg = oldArr[randomNum];
+            obj.backImg = 'images/nerv.png';
+            obj.showFrontCard = false;
+            obj.hideFrontCard = false;
+            obj.matched = false;
+            this.cardObjArr.push(obj);
+            oldArr.splice(randomNum,1);
+        };
+        console.log('cardObjArr',this.cardObjArr);
     };
 
     this.randomSort();
 
-    for(var i =0 ; i < this.imgArr.length; i++){
-        var obj = {};
-        obj.frontImg = this.imgArr[i];
-        obj.backImg = 'images/nerv.png';
-        obj.showFrontCard = false;
-        obj.hideFrontCard = false;
-        this.cardObj.push(obj);
-    }
-    console.log('cardObj : ',this.cardObj);
-    //     $('.card').on('click',card_clicked);
-    
     this.card_clicked = function(element){
-        element.item['showFrontCard'] = true;
-        console.log('clicked element', element.item['showCard'], this.cardObj  );
-        if(this.two_cards_clicked){
-            console.log('two cards already have been clicked');
+        var clickedElementCount = this.clickedElements.length;
+        if(element.matched){
+            console.log('matched element');
             return;
-         }
-         if(this.first_card_clicked == null){
-    //         $(this).find('.back').hide();
-    //         first_card_clicked = $(this);
-    //         first_card_clicked.off('click');
-    //            console.log("first_card event handler off");
-             //console.log(element);
-               return;
-         }
-    //     else{
-    //         second_card_clicked = $(this);
-    //         $(this).find('.back').hide();
-    //         two_cards_clicked = true;
-    //         attempts +=1;
-    //         //console.log("attempts: "+ attempts);
-    //         if(first_card_clicked.find('.front img').attr('src') == second_card_clicked.find('.front img').attr('src')){
-    //             first_card_clicked.addClass("matched");
-    //             second_card_clicked.addClass('matched');
-    //             //console.log("class 'matched' added to first and second card");
-    //             match_counter += 1;
-    //             //console.log('match_counter ' + match_counter);
-    //             second_card_clicked.off('click');
-    //             //console.log("second_card event handler off");
-    //             matches += 1;
-    //             //console.log('matches: ' + matches);
-    //             first_card_clicked = null;
-    //             second_card_clicked = null;
-    //             two_cards_clicked = false;
-    //             if(match_counter == total_possible_matched){
-    //                 var you_won = $('<div>').addClass("you_won").html("YOU WON!!! WOOHOO!!!");
-    //                 $('#game-area').append(you_won);
-    //             }
-    //             else{
-    //                 return;
-    //             }
-    //         }
-    //         else{
-    //             $('.card').off('click');
-    //             //console.log("all event handler off");
-    //             setTimeout(var_reset,2000);
-    //             return;
-    //         }
-    //     }
+        }
+        if(clickedElementCount > 1){
+            console.log('no more than 2 items can be clicked');
+            return;
+        }
+        else{
+            element.showFrontCard = true;
+            this.clickedElements.push(element);
+            console.log('clicked elements', this.clickedElements);
+            if(this.clickedElements.length == 2){
+                if(this.clickedElements[0] == this.clickedElements[1]){
+                    this.clickedElements.splice(1,1);
+                    console.log('cannot click same element',this.clickedElements);
+                    return;
+                }
+                else{
+                    if(this.clickedElements[0].frontImg == this.clickedElements[1].frontImg ){
+                        console.log('cards matched');
+                        this.clickedElements[0].matched = true;
+                        this.clickedElements[1].matched = true;
+                        this.clickedElements = [];
+                    }
+                    else{
+                        var self = this;
+                        $timeout(function(){
+                            self.clickedElements[0].showFrontCard = false;
+                            self.clickedElements[1].showFrontCard = false;
+                            self.clickedElements = [];
+                        },1000);
+                    }
+                }
+            }
+        }
+
+
     }
 
 
