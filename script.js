@@ -7,6 +7,7 @@
 var app = angular.module('myApp',[]);
 app.controller('cardController',function(){
     this.imgArr = [];
+    this.cardObj = [];
     this.first_card_clicked = null;
     this.two_cards_clicked = false;
     this.randomSort = function(){ //to display different cards
@@ -20,12 +21,26 @@ app.controller('cardController',function(){
             this.imgArr.push(newArr[randomNum]);
             newArr.splice(randomNum,1);
         }
+        console.log(this.imgArr.length);
         return this.imgArr;
-    }
+    };
 
+    this.randomSort();
+
+    for(var i =0 ; i < this.imgArr.length; i++){
+        var obj = {};
+        obj.frontImg = this.imgArr[i];
+        obj.backImg = 'images/nerv.png';
+        obj.showFrontCard = false;
+        obj.hideFrontCard = false;
+        this.cardObj.push(obj);
+    }
+    console.log('cardObj : ',this.cardObj);
     //     $('.card').on('click',card_clicked);
-    this.card_clicked = function(){
-        console.log('hello');
+    
+    this.card_clicked = function(element){
+        element.item['showFrontCard'] = true;
+        console.log('clicked element', element.item['showCard'], this.cardObj  );
         if(this.two_cards_clicked){
             console.log('two cards already have been clicked');
             return;
@@ -34,7 +49,8 @@ app.controller('cardController',function(){
     //         $(this).find('.back').hide();
     //         first_card_clicked = $(this);
     //         first_card_clicked.off('click');
-               console.log("first_card event handler off");
+    //            console.log("first_card event handler off");
+             //console.log(element);
                return;
          }
     //     else{
@@ -75,7 +91,7 @@ app.controller('cardController',function(){
 
 
 
-    this.randomSort();
+
 });
 
 

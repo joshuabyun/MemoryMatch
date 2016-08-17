@@ -46,9 +46,9 @@
 </section>
 <!-- Game Area -->
 <section id="game-area">
-    <div class="card" ng-click="cc.card_clicked()" ng-repeat="item in cc.imgArr track by $index">
-        <div class="front"><img ng-src="{{item}}"></div>
-        <!--<div class="back"><img src="images/nerv.png"></div>-->
+    <div class="card" ng-repeat="item in cc.cardObj track by $index" ng-click="cc.card_clicked(this)">
+        <div class="front"><img ng-src="{{item.frontImg}}" ng-hide="item['hideFrontCard']"></div>
+        <div class="back"><img ng-src="{{item.backImg}}" ng-hide="item['showFrontCard']"></div>
     </div>
 </section>
 </body>
