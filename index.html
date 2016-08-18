@@ -26,19 +26,19 @@
 <section class="stats_container">
     <div class="games-played">
         <div class="label">Games Played</div>
-        <div class="value"></div>
+        <div class="value">{{cc.gamesPlayed}}</div>
     </div>
     <div class="attempts">
         <div class="label">Attempts</div>
-        <div class="value"></div>
+        <div class="value">{{cc.attempts}}</div>
     </div>
     <div class="accuracy">
         <div class="label">Accuracy</div>
-        <div class="value"></div>
+        <div class="value">{{cc.calculateAccuracy()}}</div>
     </div>
     <div class="reset_btn_container">
-        <button class="reset" ng-click="cc.randomSort()">Reset Game</button>
-    </div>
+        <button class="reset" ng-click="cc.winningCondition()">Reset Game</button>
+    </div>  q
 </section>
 <section id="game-area">
     <div class="card" ng-repeat="item in cc.cardObjArr track by $index" ng-click="cc.card_clicked(this.item)">

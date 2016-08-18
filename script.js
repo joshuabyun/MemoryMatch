@@ -2,9 +2,11 @@ var app = angular.module('myApp',[]);
 app.controller('cardController',function($timeout){
     this.cardObjArr = [];
     this.clickedElements =[];
-    this.first_card_clicked = null;
-    this.two_cards_clicked = false;
+    this.matchCount = 0;
+    this.gamesPlayed = 0;
+    this.attempts = 0;
     this.randomSort = function(){
+        this.cardObjArr = [];
         var oldArr =
             ['images/active_eva00_00.png','images/active_eva00_01.png','images/active_eva01_00.png',
              'images/active_eva01_01.png','images/active_eva02_00.png','images/active_eva02_01.png',
@@ -23,9 +25,7 @@ app.controller('cardController',function($timeout){
         };
         console.log('cardObjArr',this.cardObjArr);
     };
-
     this.randomSort();
-
     this.card_clicked = function(element){
         var clickedElementCount = this.clickedElements.length;
         if(element.matched){
@@ -47,11 +47,18 @@ app.controller('cardController',function($timeout){
                     return;
                 }
                 else{
+                    this.attempts++;
+                    console.log("attempts",this.attempts);
                     if(this.clickedElements[0].frontImg == this.clickedElements[1].frontImg ){
                         console.log('cards matched');
                         this.clickedElements[0].matched = true;
                         this.clickedElements[1].matched = true;
                         this.clickedElements = [];
+                        this.matchCount++;
+                        console.log('matchCount : ',this.matchCount);
+                        if(this.matchCount == this.cardObjArr.length/2){
+                            this.winningCondition();
+                        }
                     }
                     else{
                         var self = this;
@@ -59,46 +66,34 @@ app.controller('cardController',function($timeout){
                             self.clickedElements[0].showFrontCard = false;
                             self.clickedElements[1].showFrontCard = false;
                             self.clickedElements = [];
+
                         },1000);
                     }
                 }
             }
         }
-
-
+    }
+    this.winningCondition = function(){
+        this.randomSort();
+        this.gamesPlayed++;
+        this.attempts = 0;
+        this.matchCount = 0;
     }
 
+    this.calculateAccuracy = function(){
+        if(this.attempts == 0){
+            return '0.00%';
+        }
+        var decimalPercent =  (this.matchCount / this.attempts)*100;
+        return decimalPercent.toFixed(2)+'%';
 
 
-
+    };
 });
 
 
 
-// var second_card_clicked = null;
-// var total_possible_matched = 9;
-// var match_counter = 0;
 
-// var matches = 0;
-// var attempts = 0;
-// var accurarcy = 0;
-// var games_played;
-//
-// $(document).ready(function(){
-
-//     $('.reset').on('click',display_stats);
-//     games_played = 0;
-// });
-
-// function var_reset(){
-//     $('#game-area > :not(".matched")').on('click',card_clicked);
-//     //console.log('all event handler is on');
-//     first_card_clicked.find('.back').show();
-//     second_card_clicked.find('.back').show();
-//     first_card_clicked = null;
-//     second_card_clicked = null;
-//     two_cards_clicked = false;
-// }
 // function display_stats(e){
 //     games_played+= 1;
 //     $('.games-played > .value').html(games_played);
@@ -113,20 +108,5 @@ app.controller('cardController',function($timeout){
 //     reset_stats();
 //     reset_cards();
 // }
-// function reset_stats(){
-//     accurarcy = 0;
-//     matches = 0;
-//     attempts = 0;
-//     match_counter = 0;
-//     first_card_clicked = null;
-//     second_card_clicked = null;
-//     two_cards_clicked = false;
-// }
-// function reset_cards(){
-//     $('.you_won').remove();
-//     $('.card').find('.back').show();
-//     $('.card').removeClass('matched');
-//     //console.log('all cards are flipped');
-//     $('.card').off('click').on('click',card_clicked);
-//     //console.log('all event handlers back on');
-// }
+
+
