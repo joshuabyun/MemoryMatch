@@ -1,151 +1,48 @@
 *{
-    font-size:0;
+    font-size: 0;
 }
-header *{
-    font-size: initial;
-}
-.stats_container *{
-    font-size: initial;
-}
-
-/* ------ above lines to clear new line character ------ */
 body{
-    display: inline-block;
-    height : 100vh;
-    width: 100%;
-    background-color: black;
-}
+    height: 100vh;
+    width: 100vw;
+    margin:0;
+    display:inline-block;
+ }
 header{
-    height: 20%;
-    position:relative;
-}
-header .img{
-    position:relative;
-    display: inline-block;
-    width:15%;
-    height:100%;
-    text-align: center;
-}
-header img{
-    height:90%;
-    position:relative;
-    display:inline-block;
-    top:5%;
-}
-.header_content{
-    width:85%;
-    height:100%;
-    position:relative;
-    display:inline-block;
-    vertical-align: top;
-}
-header ul{
+    height:15%;
     width:100%;
-    list-style-type: none;
-    display:inline-block;
-    padding:0;
-    margin:1% 0;
-}
-header li{
-    list-style-type: none;
     display:inline-block;
     position:relative;
-    font-size:1.5em;
-    margin: 1vw;
-    color:white;
 }
-.header_content a{
-    color:inherit;
-    font-size: inherit;
-    text-decoration: none;
-}
-.header_content > h1{
-    font-size : 3em;
-    margin: 2vh;
-    color:white;
-}
-/*-----------stats-------------*/
 .stats_container{
-    display: inline-block;
-    height:80%;
+    height:85%;
     width:15%;
-    vertical-align: top;
-}
-.stats_container > div{
-    height:10%;
-    margin:0 2vw;
-    position:relative;
-    top:5%;
-}
-.reset{
-    display: block;
+    display:inline-block;
     position:relative;
 }
-.label, .value{
-    font-size:1.2em;
-    color:white;
-}
-/*-----------game area-------------*/
 #game-area{
-    background-color:white;
-    display: inline-block;
-    position:relative;
+    height:85%;
     width:85%;
-    height:80%;
-    text-align: center;
+    display:inline-block;
+    position:absolute;
 }
 .card{
-    display: inline-block;
-    position: relative;
-    width: 12.5vw;
-    height: 12.5vw;
-
-    margin-right:1vw;
-    margin-top:1vh;
-}
-.front, .back {
-    display: inline-block;
-    position:absolute;
-    top:0;
-    left:0;
-    height:12.5vw;
-    width:12.5vw;
-}
-.front > img{
-    display: inline-block;
-    height:10vw;
+    margin: 0.7%;
+    /*border:1px solid black;*/
+    box-sizing: border-box;
+    height:25%;
+    width:13%;
     position:relative;
-    top:1vw;
-}
-.back > img{
-    display: inline-block;
-    height:12.5vw;
-}
-.you_won{
-    font-size:initial;
-    color:black;
-    position:absolute;
-}
-/* ---------------- */
-#about_body{
-    background-color: white;
-}
-#josh_pic{
-    height:50vh;
-    margin:1vh 1vw;
-}
-#about_body  *  {
-    font-size: initial;
-}
-#josh_intro{
-    margin:1vh 1vw;
-}
-#about_description{
     display:inline-block;
-    width:50%;
-    margin:1vh 1vw;
 }
-#portfolio_link{
-    display:block;
-    margin:1vh 1vw;
+.back{
+    height : 100%;
+    width : 100%;
+    /*background-color:pink;*/
+    position: absolute;
+}
+.front{
+    height : 100%;
+    width : 100%;
+    /*background-color:white;*/
+    position: absolute;
 }

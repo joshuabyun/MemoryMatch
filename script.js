@@ -1,107 +1,89 @@
-/**
- * Created by Gina on 7/11/2016.
- */
-/**
- * Created by Gina on 7/7/2016.
- */
-var first_card_clicked = null;
-var second_card_clicked = null;
-var total_possible_matched = 9;
-var match_counter = 0;
-var two_cards_clicked = false;
-var matches = 0;
-var attempts = 0;
-var accurarcy = 0;
-var games_played;
-
 $(document).ready(function(){
-    $('.card').on('click',card_clicked);
-    $('.reset').on('click',display_stats);
-    games_played = 0;
+    var game = new gameTemplate('game1');
+    game.gameTemplateInit();
+    game.appendToDom(game.domElement);
+    game.createCards(cardRuleSet);
+    console.log(game);
 });
-function card_clicked(e){
-    if(two_cards_clicked){
-        return;
+var game;
+var cardRuleSet = {
+    eva01 : {
+        name: 'eva01',
+        cardCount: 9,
+        image: '../memory_match/images/active_eva01_00.png',
+        hideTime: 3000,
+        back: '../memory_match/images/nerv.png'
+        
+    },
+    eva02 : {
+        name: 'eva02',
+        cardCount: 9,
+        image: '../memory_match/images/active_eva02_00.png',
+        hideTime: 1000,
+        back: '../memory_match/images/nerv.png'
     }
-    if(first_card_clicked == null){
-        $(this).find('.back').hide();
-        first_card_clicked = $(this);
-        first_card_clicked.off('click');
-        //console.log("first_card event handler off");
-        return;
+};
+
+function gameTemplate(name){
+    this.domElement;
+    this.children = [];
+    this.gameTemplateInit = function(){
+        this.createDomElement();
     }
-    else{
-        second_card_clicked = $(this);
-        $(this).find('.back').hide();
-        two_cards_clicked = true;
-        attempts +=1;
-        //console.log("attempts: "+ attempts);
-        if(first_card_clicked.find('.front img').attr('src') == second_card_clicked.find('.front img').attr('src')){
-            first_card_clicked.addClass("matched");
-            second_card_clicked.addClass('matched');
-            //console.log("class 'matched' added to first and second card");
-            match_counter += 1;
-            //console.log('match_counter ' + match_counter);
-            second_card_clicked.off('click');
-            //console.log("second_card event handler off");
-            matches += 1;
-            //console.log('matches: ' + matches);
-            first_card_clicked = null;
-            second_card_clicked = null;
-            two_cards_clicked = false;
-            if(match_counter == total_possible_matched){
-                var you_won = $('<div>').addClass("you_won").html("YOU WON!!! WOOHOO!!!");
-                $('#game-area').append(you_won);
+    this.createDomElement = function(){
+        var gameBoard = $('<section>').attr({'id' : 'game-area','name': name});
+        this.domElement = gameBoard;
+    }
+    this.appendToDom = function(domElement){
+        $('body').append(domElement);
+    }
+    this.removeDom = function(){
+        this.domElement.remove();
+    }
+    this.createCards = function(ruleset){//object contains card info
+        var childrenDom = [];
+        for(item in ruleset){
+            console.log('card ruleset',ruleset[item]);
+            for(var i = 0; i < ruleset[item].cardCount; i++){
+                var card = new cardTemplate(this);
+                this.children.push(card);
+                childrenDom.push(card.cardTemplateInit(ruleset[item]));
             }
-            else{
-                return;
-            }
         }
-        else{
-            $('.card').off('click');
-            //console.log("all event handler off");
-            setTimeout(var_reset,2000);
-            return;
-        }
+
+    };
+    this.clickHandler = function(){
+        
     }
 }
-function var_reset(){
-    $('#game-area > :not(".matched")').on('click',card_clicked);
-    //console.log('all event handler is on');
-    first_card_clicked.find('.back').show();
-    second_card_clicked.find('.back').show();
-    first_card_clicked = null;
-    second_card_clicked = null;
-    two_cards_clicked = false;
-}
-function display_stats(e){
-    games_played+= 1;
-    $('.games-played > .value').html(games_played);
-    $('.attempts > .value').html(attempts);
-    var decimal_accuracy = matches/attempts*100;
-    accurarcy = decimal_accuracy.toFixed(2) + "%";
-        if(matches == 0 && attempts == 0){
-        accurarcy = 0;
-        }
-    $('.accuracy > .value').html(accurarcy);
-    //console.log('reset button pressed');
-    reset_stats();
-    reset_cards();
-}
-function reset_stats(){
-    accurarcy = 0;
-    matches = 0;
-    attempts = 0;
-    match_counter = 0;
-    first_card_clicked = null;
-    second_card_clicked = null;
-    two_cards_clicked = false;
-}
-function reset_cards(){
-    $('.you_won').remove();
-    $('.card').find('.back').show();
-    $('.card').removeClass('matched');
-    //console.log('all cards are flipped');
-    $('.card').off('click').on('click',card_clicked);
-    //console.log('all event handlers back on');
+
+function cardTemplate(parent){
+    this.parent = parent;
+    this.domElement;
+    this.cardTemplateInit = function(ruleset){
+        var cardDomElement  = this.createDomElement(ruleset);
+        return cardDomElement;
+
+    }
+    this.createDomElement = function(ruleset){
+        var back =$('<div>').addClass('back').css({
+            'background-image' : 'url('+ruleset.image+')',
+            'background-repeat' : 'no-repeat',
+            'background-size' : 'contain'
+        });
+        var front = $('<div>').addClass('front').css({
+            'background-image' : 'url('+ruleset.back+')',
+            'background-repeat' : 'no-repeat',
+            'background-size' : 'contain'
+        });
+        var card = $('<div>').addClass('card');
+        this.domElement = card.append(back,front);
+        this.domElement.click(this.handleClick);
+        console.log('card dom element created',this.domElement);
+        parent.domElement.append(this.domElement);
+        return this.domElement;
+    };
+    this.handleClick = function(){
+        console.log(this);
+    }
 }
