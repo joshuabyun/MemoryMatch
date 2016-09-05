@@ -199,7 +199,7 @@ function cardTemplate(parent){
         var back =$('<div>').addClass('back').append($('<img>').attr({'src' : ruleset.back}));
         var front = $('<div>').addClass('front').append($('<img>').attr({'src' : ruleset.image}));
         var card = $('<div>').addClass('card').attr({'name' : this.ruleset.name});
-        this.domElement = card.append(back,front);
+        this.domElement = card.append(front,back);
         this.domElement.click(this.handleClick.bind(this));//before bind(), this refers to the dom element
         return this.domElement;
     };
@@ -213,10 +213,14 @@ function cardTemplate(parent){
         this.showCard();
     };
     this.showCard = function(){
-        this.domElement.find('.back').hide();
+        this.domElement.find('.back').addClass('flipBack');
+        this.domElement.find('.front').addClass('flipFront');
     };
     this.hideCard = function(){
-        this.domElement.find('.back').show();
+        this.domElement.find('.back').removeClass('flipBack');
+        this.domElement.find('.front').removeClass('flipFront');
+        this.domElement.find('.back').addClass('flipBack2');
+        this.domElement.find('.front').addClass('flipFront2');
     };
     this.handleMatchedCondition = function(matchedPair){
         console.log('i ',this.domElement, 'am matched with ', matchedPair.domElement);

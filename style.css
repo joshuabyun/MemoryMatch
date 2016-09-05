@@ -36,11 +36,11 @@ header{
     width:13%;
     position:relative;
     display:inline-block;
+
 }
 .back{
     height : 100%;
     width : 100%;
-    /*background-color:pink;*/
     position: absolute;
 }
 .front{
@@ -48,8 +48,28 @@ header{
     width : 100%;
     /*background-color:white;*/
     position: absolute;
+    transform: rotateY(0deg);
 }
 .back > img, .front > img{
     height : 100%;
     width : 100%;
+}
+-------------------
+.flipFront{
+    transform: rotateY(180deg);
+    transition:.9s;
+}
+.flipBack{
+    transform: rotateY(0deg);
+    transition: .4s;
+    visibility: hidden;
+}
+
+.flipFront2{
+    transform: rotateY( 0deg);
+    transition:1s;
+}
+.flipBack2{
+    transform: rotateY(0deg);
+    transition: 1s;
 }
