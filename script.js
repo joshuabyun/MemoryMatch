@@ -168,7 +168,7 @@ function gameTemplate(name,cardRuleSet){
                 self.secondCard.handleMismatchCondition(self.firstCard);
                 self.firstCard = null;
                 self.secondCard = null;
-            },3000)
+            },1000)
         }
     };
     this.gameWinHandler = function(){
