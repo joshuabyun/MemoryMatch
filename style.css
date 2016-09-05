@@ -19,6 +19,9 @@ header{
     display:inline-block;
     position:relative;
 }
+.stats_container > *{
+    font-size: initial;
+}
 #game-area{
     height:85%;
     width:85%;

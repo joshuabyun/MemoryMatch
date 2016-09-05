@@ -1,9 +1,9 @@
 $(document).ready(function(){
-    var game = new gameTemplate('game1');
+    var game = new gameTemplate('game1',cardRuleSet);
     game.gameTemplateInit();
     game.appendToDom(game.domElement);
-    game.createCards(cardRuleSet);
-    //console.log(game);
+    game.createCards();
+    applyResetBtn(game);
 });
 var game;
 var cardRuleSet = {
@@ -70,44 +70,52 @@ var cardRuleSet = {
         image: '../memory_match/images/eva_series_00.png',
         hideTime: 1000,
         back: '../memory_match/images/nerv.png'
-    },
+    }
 };
+function applyResetBtn(gameTemplateName){
+    var self = gameTemplateName;
+    $('#resetBtn').click(
+        function(){
+            self.reset();
+        }
+    )
+}
 
-function gameTemplate(name){
+function gameTemplate(name,cardRuleSet){
     this.domElement;
-    this.children = [];
     this.firstCard ;
     this.secondCard;
+    this.ruleset = cardRuleSet;
+    this.children = [];//
+    this.childrenDomElementList =[];//would like to consolidate with this.children
     this.matchedCardCount = 0;
-
+    this.gamesPlayed = 0;
     this.gameTemplateInit = function(){
         this.createDomElement();
-    }
+    };
     this.createDomElement = function(){
         var gameBoard = $('<section>').attr({'id' : 'game-area','name': name});
         this.domElement = gameBoard;
-    }
+    };
     this.appendToDom = function(domElement){
         $('body').append(domElement);
-    }
+    };
     this.removeDom = function(){
-        this.domElement.remove();
-    }
-    this.createCards = function(ruleset){//object contains card info
-        var domElementList = [];
-        for(item in ruleset){
-            //console.log('card ruleset',ruleset[item]);
-            for(var i = 0; i < ruleset[item].cardCount; i++){
+        this.domElement.remove(); //in case of using two boards
+    };
+    this.createCards = function(){
+        for(item in this.ruleset){
+            for(var i = 0; i < this.ruleset[item].cardCount; i++){
                 var card = new cardTemplate(this);
-                var domElement = card.cardTemplateInit(ruleset[item]);
-                this.children.push(card); //need to check if this template includes dom element
-                domElementList.push(domElement);
+                var domElement = card.cardTemplateInit(this.ruleset[item]);
+                this.children.push(card);
+                this.childrenDomElementList.push(domElement);
             }
         }
-        this.randomizeCardOrder(domElementList);
+        this.randomizeCardOrder(this.childrenDomElementList);
     };
-    this.randomizeCardOrder = function(domElementList){
-        var cardDom =  domElementList; //this.domElement.find('.card');//array of card dom elements in order based on dom
+    this.randomizeCardOrder = function(childrenDomElementList){
+        var cardDom =  childrenDomElementList; //this.domElement.find('.card');//array of card dom elements in order based on dom
         var randomizedList = [];
         while(cardDom.length > 0){
             var randomNum = Math.floor(Math.random()*cardDom.length);
@@ -116,25 +124,9 @@ function gameTemplate(name){
         }
         this.domElement.html('');
         this.domElement.append(randomizedList);
-
+        this.childrenDomElementList = randomizedList;
     
     };
-    // this.countAllcards = function(ruleset){
-    //     var totalCount = 0;
-    //     var orderList = [];
-    //     var cardObj = [];
-    //     var returnOutput = [];
-    //     for( item in ruleset){
-    //         for(var i = 0; i < ruleset[item].cardCount; i++){
-    //             orderList.push(totalCount+i);
-    //             cardObj.push(ruleset[item]);
-    //         }
-    //         totalCount+=ruleset[item].cardCount;
-    //     }
-    //     returnOutput.push(orderList);
-    //     returnOutput.push(cardObj);
-    //     return returnOutput;
-    // };
     this.handleClick = function(clickedCard){
         if(this.firstCard == undefined){
             this.firstCard = clickedCard;
@@ -178,8 +170,20 @@ function gameTemplate(name){
         }
     };
     this.gameWinHandler = function(){
-       console.log('you won');
+        this.reset();
+        console.log('you won');
+    };
+    this.reset = function(){
+        this.gamesPlayed +=1;
+        this.children = [];
+        this.childrenDomElementList =[];
+        this.firstCard = null;
+        this.secondCard = null;
+        this.matchedCardCount = 0;
+        this.createCards();
+        console.log('gamesPlayed : ',this.gamesPlayed );
     }
+
 }
 
 function cardTemplate(parent){
@@ -197,7 +201,6 @@ function cardTemplate(parent){
         var card = $('<div>').addClass('card').attr({'name' : this.ruleset.name});
         this.domElement = card.append(back,front);
         this.domElement.click(this.handleClick.bind(this));//before bind(), this refers to the dom element
-        //this.parent.domElement.append(this.domElement);
         return this.domElement;
     };
     this.handleClick = function(){
