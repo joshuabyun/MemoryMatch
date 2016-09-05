@@ -94,42 +94,47 @@ function gameTemplate(name){
         this.domElement.remove();
     }
     this.createCards = function(ruleset){//object contains card info
-        this.randomizeCardOrder(ruleset);
-
-
-        // for(item in ruleset){
-        //     //console.log('card ruleset',ruleset[item]);
-        //     for(var i = 0; i < ruleset[item].cardCount; i++){
-        //         var card = new cardTemplate(this);
-        //         card.cardTemplateInit(ruleset[item]);
-        //         this.children.push(card);
-        //     }
-        // }
-        //
-
-    };
-    this.randomizeCardOrder = function(ruleset){
-        var list = this.countAllcards(ruleset);
-        console.log(list);
-
-
-    };
-    this.countAllcards = function(ruleset){
-        var totalCount = 0;
-        var orderList = [];
-        var cardObj = [];
-        var returnOutput = [];
-        for( item in ruleset){
+        var domElementList = [];
+        for(item in ruleset){
+            //console.log('card ruleset',ruleset[item]);
             for(var i = 0; i < ruleset[item].cardCount; i++){
-                orderList.push(totalCount+i);
-                cardObj.push(ruleset[item]);
+                var card = new cardTemplate(this);
+                var domElement = card.cardTemplateInit(ruleset[item]);
+                this.children.push(card); //need to check if this template includes dom element
+                domElementList.push(domElement);
             }
-            totalCount+=ruleset[item].cardCount;
         }
-        returnOutput.push(orderList);
-        returnOutput.push(cardObj);
-        return returnOutput;
+        this.randomizeCardOrder(domElementList);
     };
+    this.randomizeCardOrder = function(domElementList){
+        var cardDom =  domElementList; //this.domElement.find('.card');//array of card dom elements in order based on dom
+        var randomizedList = [];
+        while(cardDom.length > 0){
+            var randomNum = Math.floor(Math.random()*cardDom.length);
+            var splicedDom = cardDom.splice(randomNum,1);
+            randomizedList.push(splicedDom[0]);
+        }
+        this.domElement.html('');
+        this.domElement.append(randomizedList);
+
+    
+    };
+    // this.countAllcards = function(ruleset){
+    //     var totalCount = 0;
+    //     var orderList = [];
+    //     var cardObj = [];
+    //     var returnOutput = [];
+    //     for( item in ruleset){
+    //         for(var i = 0; i < ruleset[item].cardCount; i++){
+    //             orderList.push(totalCount+i);
+    //             cardObj.push(ruleset[item]);
+    //         }
+    //         totalCount+=ruleset[item].cardCount;
+    //     }
+    //     returnOutput.push(orderList);
+    //     returnOutput.push(cardObj);
+    //     return returnOutput;
+    // };
     this.handleClick = function(clickedCard){
         if(this.firstCard == undefined){
             this.firstCard = clickedCard;
@@ -189,10 +194,10 @@ function cardTemplate(parent){
     this.createDomElement = function(ruleset){
         var back =$('<div>').addClass('back').append($('<img>').attr({'src' : ruleset.back}));
         var front = $('<div>').addClass('front').append($('<img>').attr({'src' : ruleset.image}));
-        var card = $('<div>').addClass('card');
-        this.domElement = card.append(front,back);
+        var card = $('<div>').addClass('card').attr({'name' : this.ruleset.name});
+        this.domElement = card.append(back,front);
         this.domElement.click(this.handleClick.bind(this));//before bind(), this refers to the dom element
-        this.parent.domElement.append(this.domElement);
+        //this.parent.domElement.append(this.domElement);
         return this.domElement;
     };
     this.handleClick = function(){
