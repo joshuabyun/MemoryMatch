@@ -42,34 +42,34 @@ header{
     height : 100%;
     width : 100%;
     position: absolute;
+
 }
 .front{
     height : 100%;
     width : 100%;
     /*background-color:white;*/
     position: absolute;
-    transform: rotateY(0deg);
+    transform: rotateY(180deg);
 }
 .back > img, .front > img{
     height : 100%;
     width : 100%;
 }
--------------------
+/*-------------------*/
 .flipFront{
-    transform: rotateY(180deg);
-    transition:.9s;
+    transform: rotateY(0deg);
+    transition:1s;
 }
 .flipBack{
-    transform: rotateY(0deg);
-    transition: .4s;
+    transform: rotateY(90deg);
+    transition: .5s;
     visibility: hidden;
 }
-
 .flipFront2{
-    transform: rotateY( 0deg);
+    transform: rotateY(180deg);
     transition:1s;
 }
 .flipBack2{
     transform: rotateY(0deg);
-    transition: 1s;
+    transition: .6s;
 }

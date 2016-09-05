@@ -130,11 +130,13 @@ function gameTemplate(name,cardRuleSet){
     this.handleClick = function(clickedCard){
         if(this.firstCard == undefined){
             this.firstCard = clickedCard;
+            console.log("first card",this.firstCard);
             this.firstCard.handleFirstCard();
         }
         else if(this.secondCard == undefined){
             if(clickedCard != this.firstCard){
                 this.secondCard = clickedCard;
+                console.log('second card',this.secondCard);
                 this.secondCard.handleSecondCard();
                 this.checkCardsMatched();
             }
@@ -213,6 +215,8 @@ function cardTemplate(parent){
         this.showCard();
     };
     this.showCard = function(){
+        this.domElement.find('.back').removeClass('flipBack2');
+        this.domElement.find('.front').removeClass('flipFront2');
         this.domElement.find('.back').addClass('flipBack');
         this.domElement.find('.front').addClass('flipFront');
     };
