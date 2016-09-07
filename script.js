@@ -128,6 +128,10 @@ function gameTemplate(name,cardRuleSet){
     
     };
     this.handleClick = function(clickedCard){
+        if(clickedCard.matched){
+            console.log('cannot click matched cards');
+            return;
+        }
         if(this.firstCard == undefined){
             this.firstCard = clickedCard;
             console.log("first card",this.firstCard);
@@ -192,6 +196,7 @@ function cardTemplate(parent){
     this.parent = parent;
     this.domElement;
     this.ruleset;
+    this.matched = false;
     this.cardTemplateInit = function(ruleset){
         this.ruleset =ruleset;
         var cardDomElement  = this.createDomElement(this.ruleset);
@@ -227,6 +232,7 @@ function cardTemplate(parent){
         this.domElement.find('.front').addClass('flipFront2');
     };
     this.handleMatchedCondition = function(matchedPair){
+        this.matched = true;
         console.log('i ',this.domElement, 'am matched with ', matchedPair.domElement);
     };
     this.handleMismatchCondition = function(){
