@@ -1,6 +1,6 @@
 $(document).ready(function(){
-    var game1 = new gameTemplate('game1',cardRuleSet,backgroundPics.background2);
-    var game2 = new gameTemplate('game2',cardRuleSet,backgroundPics.background4, game1);
+    var game1 = new gameTemplate('game1',cardRuleSet,backgroundPics.player1);
+    var game2 = new gameTemplate('game2',cardRuleSet,backgroundPics.player2, game1);
     game1.opponentObj = game2;
 
     game1.gameTemplateInit();
@@ -8,16 +8,23 @@ $(document).ready(function(){
     game1.createCards();
     game2.createCards();
 
-    game1.appendToDom(game1.domElement);
+        game1.appendToDom(game1.domElement);
 
     //applyResetBtn(game);
 });
 var game;
 var backgroundPics = {
-    background1 : '../memory_match/images/evangelion-backgrounds-00.png',
-    background2 : '../memory_match/images/evangelion-backgrounds-01.jpg',
-    background3 : '../memory_match/images/evangelion-backgrounds-02.jpg',
-    background4 : '../memory_match/images/evangelion-backgrounds-03.jpg'
+    player1 : {
+        img : '../memory_match/images/evangelion-backgrounds-00.png',
+        animationClass :"player1Background"
+    },
+    // background2 : '../memory_match/images/evangelion-backgrounds-01.jpg',
+    // background3 : '../memory_match/images/evangelion-backgrounds-02.jpg',
+    player2 : {
+        img : '../memory_match/images/evangelion-backgrounds-03.jpg',
+        animationClass : "player2Background"
+    }
+
 
 };
 var cardRuleSet = {
@@ -104,7 +111,7 @@ function gameTemplate(name,cardRuleSet,backgroundImg,opponentObj){
     this.matchedCardCount = 0;
     this.gamesPlayed = 0;
     this.opponentObj = opponentObj;
-    this.backgroundImg = backgroundImg;
+    this.backgroundImgObj = backgroundImg;
 
     this.gameTemplateInit = function(){
         this.createDomElement();
@@ -114,7 +121,8 @@ function gameTemplate(name,cardRuleSet,backgroundImg,opponentObj){
         this.domElement = gameBoard;
     };
     this.appendToDom = function(domElement){
-        //this.applyBodyBackground();
+        this.applyBodyBackgroundAnimation();
+        this.applyBodyBackground();
         var self = this;
         console.log(domElement);
         $('body').append(domElement);
@@ -141,8 +149,13 @@ function gameTemplate(name,cardRuleSet,backgroundImg,opponentObj){
     };
     this.applyBodyBackground = function(){
       $('body').css({
-          "background-image": "url("+ this.backgroundImg +")"
+          "background-image": "url("+ this.backgroundImgObj.img +")"
       });
+    };
+    this.applyBodyBackgroundAnimation = function(){
+        $('body').css({
+            "animation-name" : this.backgroundImgObj.animationClass
+        })
     };
     this.callOpponentObj = function(){
         //this.applyBodyBackground();
