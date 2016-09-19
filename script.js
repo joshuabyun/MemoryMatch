@@ -1,11 +1,25 @@
 $(document).ready(function(){
-    var game = new gameTemplate('game1',cardRuleSet);
-    game.gameTemplateInit();
-    game.appendToDom(game.domElement);
-    game.createCards();
-    applyResetBtn(game);
+    var game1 = new gameTemplate('game1',cardRuleSet,backgroundPics.background2);
+    var game2 = new gameTemplate('game2',cardRuleSet,backgroundPics.background4, game1);
+    game1.opponentObj = game2;
+
+    game1.gameTemplateInit();
+    game2.gameTemplateInit();
+    game1.createCards();
+    game2.createCards();
+
+    game1.appendToDom(game1.domElement);
+
+    //applyResetBtn(game);
 });
 var game;
+var backgroundPics = {
+    background1 : '../memory_match/images/evangelion-backgrounds-00.png',
+    background2 : '../memory_match/images/evangelion-backgrounds-01.jpg',
+    background3 : '../memory_match/images/evangelion-backgrounds-02.jpg',
+    background4 : '../memory_match/images/evangelion-backgrounds-03.jpg'
+
+};
 var cardRuleSet = {
     eva01 : {
         name: 'eva01',
@@ -13,7 +27,6 @@ var cardRuleSet = {
         image: '../memory_match/images/active_eva00_00.png',
         hideTime: 3000,
         back: '../memory_match/images/nerv.png'
-        
     },
     eva02 : {
         name: 'eva02',
@@ -29,48 +42,48 @@ var cardRuleSet = {
         hideTime: 1000,
         back: '../memory_match/images/nerv.png'
     },
-    eva04 : {
-        name: 'eva04',
-        cardCount: 2,
-        image: '../memory_match/images/active_eva01_01.png',
-        hideTime: 1000,
-        back: '../memory_match/images/nerv.png'
-    },
-    eva05 : {
-        name: 'eva05',
-        cardCount: 2,
-        image: '../memory_match/images/active_eva02_00.png',
-        hideTime: 1000,
-        back: '../memory_match/images/nerv.png'
-    },
-    eva06 : {
-        name: 'eva06',
-        cardCount: 2,
-        image: '../memory_match/images/active_eva02_01.png',
-        hideTime: 1000,
-        back: '../memory_match/images/nerv.png'
-    },
-    eva07 : {
-        name: 'eva07',
-        cardCount: 2,
-        image: '../memory_match/images/active_eva02_02.png',
-        hideTime: 1000,
-        back: '../memory_match/images/nerv.png'
-    },
-    eva08 : {
-        name: 'eva08',
-        cardCount: 2,
-        image: '../memory_match/images/active_eva06_00.png',
-        hideTime: 1000,
-        back: '../memory_match/images/nerv.png'
-    },
-    eva09 : {
-        name: 'eva09',
-        cardCount: 2,
-        image: '../memory_match/images/eva_series_00.png',
-        hideTime: 1000,
-        back: '../memory_match/images/nerv.png'
-    }
+    // eva04 : {
+    //     name: 'eva04',
+    //     cardCount: 2,
+    //     image: '../memory_match/images/active_eva01_01.png',
+    //     hideTime: 1000,
+    //     back: '../memory_match/images/nerv.png'
+    // },
+    // eva05 : {
+    //     name: 'eva05',
+    //     cardCount: 2,
+    //     image: '../memory_match/images/active_eva02_00.png',
+    //     hideTime: 1000,
+    //     back: '../memory_match/images/nerv.png'
+    // },
+    // eva06 : {
+    //     name: 'eva06',
+    //     cardCount: 2,
+    //     image: '../memory_match/images/active_eva02_01.png',
+    //     hideTime: 1000,
+    //     back: '../memory_match/images/nerv.png'
+    // },
+    // eva07 : {
+    //     name: 'eva07',
+    //     cardCount: 2,
+    //     image: '../memory_match/images/active_eva02_02.png',
+    //     hideTime: 1000,
+    //     back: '../memory_match/images/nerv.png'
+    // },
+    // eva08 : {
+    //     name: 'eva08',
+    //     cardCount: 2,
+    //     image: '../memory_match/images/active_eva06_00.png',
+    //     hideTime: 1000,
+    //     back: '../memory_match/images/nerv.png'
+    // },
+    // eva09 : {
+    //     name: 'eva09',
+    //     cardCount: 2,
+    //     image: '../memory_match/images/eva_series_00.png',
+    //     hideTime: 1000,
+    //     back: '../memory_match/images/nerv.png'
+    // }
 };
 function applyResetBtn(gameTemplateName){
     var self = gameTemplateName;
@@ -81,7 +94,7 @@ function applyResetBtn(gameTemplateName){
     )
 }
 
-function gameTemplate(name,cardRuleSet){
+function gameTemplate(name,cardRuleSet,backgroundImg,opponentObj){
     this.domElement;
     this.firstCard ;
     this.secondCard;
@@ -90,6 +103,9 @@ function gameTemplate(name,cardRuleSet){
     this.childrenDomElementList =[];//would like to consolidate with this.children
     this.matchedCardCount = 0;
     this.gamesPlayed = 0;
+    this.opponentObj = opponentObj;
+    this.backgroundImg = backgroundImg;
+
     this.gameTemplateInit = function(){
         this.createDomElement();
     };
@@ -98,14 +114,52 @@ function gameTemplate(name,cardRuleSet){
         this.domElement = gameBoard;
     };
     this.appendToDom = function(domElement){
+        //this.applyBodyBackground();
+        var self = this;
+        console.log(domElement);
         $('body').append(domElement);
+        $(domElement).css({
+            "opacity":0
+        }).animate({
+              opacity:1
+              },2000,"linear",function(){
+              self.applyClickToCardTemplates();
+        });
+        //
     };
+
+
+
+
     this.removeDom = function(){
         this.domElement.remove(); //in case of using two boards
     };
+    this.clearBoard = function(){
+        for(var index in this.children){
+            this.children[index].removeCardDom();
+        }
+    };
+    this.applyBodyBackground = function(){
+      $('body').css({
+          "background-image": "url("+ this.backgroundImg +")"
+      });
+    };
+    this.callOpponentObj = function(){
+        //this.applyBodyBackground();
+        this.opponentObj.appendToDom(this.opponentObj.domElement);
+    };
+    this.applyClickToCardTemplates = function(){
+        for(var eachCardTemplate in this.children){
+            this.children[eachCardTemplate].addClickHandler();
+        }
+    };
+
+
+
     this.createCards = function(){
-        for(item in this.ruleset){
+        for(var item in this.ruleset){
             for(var i = 0; i < this.ruleset[item].cardCount; i++){
+                //console.log('cardTemplate',cardTemplate);
                 var card = new cardTemplate(this);
                 var domElement = card.cardTemplateInit(this.ruleset[item]);
                 this.children.push(card);
@@ -128,10 +182,8 @@ function gameTemplate(name,cardRuleSet){
     
     };
     this.handleClick = function(clickedCard){
-        if(clickedCard.matched){
-            console.log('cannot click matched cards');
-            return;
-        }
+        // console.log('first card', this.firstCard);
+        // console.log('second card', this.secondCard);
         if(this.firstCard == undefined){
             this.firstCard = clickedCard;
             console.log("first card",this.firstCard);
@@ -159,6 +211,7 @@ function gameTemplate(name,cardRuleSet){
             this.secondCard.handleMatchedCondition(this.firstCard);
             this.matchedCardCount+=2;
             if(this.matchedCardCount == this.children.length){
+                console.log('you won');
                 this.gameWinHandler();
                 return;
             }
@@ -172,15 +225,20 @@ function gameTemplate(name,cardRuleSet){
                 self.secondCard.handleMismatchCondition(self.firstCard);
                 self.firstCard = null;
                 self.secondCard = null;
+
+                self.removeDom();
+                self.callOpponentObj();
             },1000)
         }
     };
     this.gameWinHandler = function(){
         this.reset();
+        this.opponentObj.reset();
         console.log('you won');
     };
     this.reset = function(){
         this.gamesPlayed +=1;
+        this.clearBoard();
         this.children = [];
         this.childrenDomElementList =[];
         this.firstCard = null;
@@ -196,7 +254,6 @@ function cardTemplate(parent){
     this.parent = parent;
     this.domElement;
     this.ruleset;
-    this.matched = false;
     this.cardTemplateInit = function(ruleset){
         this.ruleset =ruleset;
         var cardDomElement  = this.createDomElement(this.ruleset);
@@ -207,8 +264,14 @@ function cardTemplate(parent){
         var front = $('<div>').addClass('front').append($('<img>').attr({'src' : ruleset.image}));
         var card = $('<div>').addClass('card').attr({'name' : this.ruleset.name});
         this.domElement = card.append(front,back);
-        this.domElement.click(this.handleClick.bind(this));//before bind(), this refers to the dom element
+        //  this.addClickHandler();
         return this.domElement;
+    };
+    this.removeCardDom = function(){
+      this.domElement.remove();
+    };
+    this.addClickHandler = function(){
+        this.domElement.click(this.handleClick.bind(this));//before bind(), this refers to the dom element
     };
     this.handleClick = function(){
         this.parent.handleClick(this);
@@ -232,7 +295,6 @@ function cardTemplate(parent){
         this.domElement.find('.front').addClass('flipFront2');
     };
     this.handleMatchedCondition = function(matchedPair){
-        this.matched = true;
         console.log('i ',this.domElement, 'am matched with ', matchedPair.domElement);
     };
     this.handleMismatchCondition = function(){
