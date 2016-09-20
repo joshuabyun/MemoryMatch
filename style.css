@@ -47,8 +47,6 @@ body{
 #gameOption *{
     font-size: 3vw;
 }
-
-
 #optionContainer{
     position:absolute;
     display: block;
@@ -56,21 +54,19 @@ body{
     top:50%;
     text-align: center;
 }
-#playerMode{
+#optionTitle{
     position:relative;
     color:white;
     text-shadow: 5px 5px 10px black;
 }
-#choosePlayer{
-    position:relative;
-    color:white;
-    margin:1%;
-}
-.player{
+
+
+
+#player{
     display: inline-block;
     position:relative;
-    width:15%;
-    border:1px solid white;
+    box-sizing: border-box;
+    width:100%;
 }
 #start{
     position:relative;
@@ -78,11 +74,19 @@ body{
     color:white;
 }
 
-.player:hover{
-    color:red;
-}
 #start:hover{
     color:orangered;
+    cursor: pointer;
+}
+.playSelector + label{
+    color:white;
+    margin :0 5%;
+}
+.playSelector:checked + label{
+    color:red;
+}
+input{
+    display: none;
 }
 
 

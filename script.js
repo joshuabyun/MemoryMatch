@@ -16,8 +16,34 @@ $(document).ready(function(){
 
 function initialPage(){
         
-    var playerMode = $("<div>").attr({"id" : "playerMode"}).text("PLAY MODE");
-    var choosePlayers = $("<div>").attr({"id" : "choosePlayer"}).append($("<div>").addClass("player").text("1P"),$("<div>").addClass("player").text("2P"));
+    var playerMode = $("<div>").attr({"id" : "optionTitle"}).text("PLAY MODE");
+
+    var player1 = $('<input>').attr({
+        "class" : "playSelector",
+        "type" : "radio",
+        "name" : "playerMode",
+        "value" : "1p",
+        "checked" : "checked",
+        "id" : "1p"
+    });
+    var player1Label = $("<label>").attr({
+        "for" : "1p",
+        "class" : "playSelector"
+    }).text("1P");
+
+    var player2 = $('<input>').attr({
+        "class" : "playSelector",
+        "type" : "radio",
+        "name" : "playerMode",
+        "value" : "2p",
+        "id" : "2p"
+    });
+    var player2Label = $("<label>").attr({
+        "for" : "2p",
+        "class" : "playSelector"
+    }).text("2P");
+
+    var choosePlayers = $('<form>').attr({"id":"player"}).append(player1,player1Label,player2,player2Label);
     var start = $("<div>").attr({"id" : "start"}).text("START");
     var optionContainer = $("<div>").attr({"id" : "optionContainer"}).append(playerMode,choosePlayers,start);
     
