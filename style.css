@@ -29,6 +29,64 @@ body{
     }
 }
 
+
+#gameOption{
+    position: absolute;
+    height:60%;
+    width:40%;
+    /*background-color: ;*/
+    top:25%;
+    left:30%;
+    background-image: url("../memory_match/images/evangelion-backgrounds-initialpage-00.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: black;
+    border:1px solid red;
+    border-radius: 5%;
+}
+#gameOption *{
+    font-size: 3vw;
+}
+
+
+#optionContainer{
+    position:absolute;
+    display: block;
+    width: 100%;
+    top:50%;
+    text-align: center;
+}
+#playerMode{
+    position:relative;
+    color:white;
+    text-shadow: 5px 5px 10px black;
+}
+#choosePlayer{
+    position:relative;
+    color:white;
+    margin:1%;
+}
+.player{
+    display: inline-block;
+    position:relative;
+    width:15%;
+    border:1px solid white;
+}
+#start{
+    position:relative;
+    width:100%;
+    color:white;
+}
+
+.player:hover{
+    color:red;
+}
+#start:hover{
+    color:orangered;
+}
+
+
+
 header{
     height:20%;
     width:100%;
@@ -61,8 +119,6 @@ header{
 }
 .back{
     opacity: .5;
-
-
 
 
     height : 100%;

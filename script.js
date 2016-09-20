@@ -1,18 +1,46 @@
 $(document).ready(function(){
-    var game1 = new gameTemplate('game1',cardRuleSet,backgroundPics.player1);
-    var game2 = new gameTemplate('game2',cardRuleSet,backgroundPics.player2, game1);
-    game1.opponentObj = game2;
-
-    game1.gameTemplateInit();
-    game2.gameTemplateInit();
-    game1.createCards();
-    game2.createCards();
-
-    game1.appendToDom(game1.domElement);
-
-    applyResetBtn(game1,game2);
+    // var game1 = new gameTemplate('game1',cardRuleSet,backgroundPics.player1);
+    // var game2 = new gameTemplate('game2',cardRuleSet,backgroundPics.player2, game1);
+    // game1.opponentObj = game2;
+    //
+    // game1.gameTemplateInit();
+    // game2.gameTemplateInit();
+    // game1.createCards();
+    // game2.createCards();
+    //
+    // game1.appendToDom(game1.domElement);
+    //
+    // applyResetBtn(game1,game2);
+    initialPage();
 });
+
+function initialPage(){
+        
+    var playerMode = $("<div>").attr({"id" : "playerMode"}).text("PLAY MODE");
+    var choosePlayers = $("<div>").attr({"id" : "choosePlayer"}).append($("<div>").addClass("player").text("1P"),$("<div>").addClass("player").text("2P"));
+    var start = $("<div>").attr({"id" : "start"}).text("START");
+    var optionContainer = $("<div>").attr({"id" : "optionContainer"}).append(playerMode,choosePlayers,start);
+    
+    
+    var gameOptionPage = $('<section>').css({
+       "opacity" : 0
+    }).attr({'id' : 'gameOption'}).animate({
+        opacity : 1
+    },1000,"swing").append(optionContainer);
+
+    $('body').css({
+        "background-image": "url("+ this.initialPageBackground.img +")"
+    }).append(gameOptionPage);
+
+
+}
+
+
+
 var game;
+var initialPageBackground = {
+    img : "../memory_match/images/evangelion-backgrounds-01.jpg"
+}
 var backgroundPics = {
     player1 : {
         img : '../memory_match/images/evangelion-backgrounds-00.png',
@@ -241,10 +269,7 @@ function gameTemplate(name,cardRuleSet,backgroundImg,opponentObj){
                 self.secondCard.handleMismatchCondition(self.firstCard);
             },1000)
         }
-
         this.waitForFlipEvent = function(timeStamp){
-
-
             if(this.firstFlipedEventTimeStamp == undefined){
                 this.firstFlipedEventTimeStamp = timeStamp;
                 console.log('first flip ends at ',this.firstFlipedEventTimeStamp);
@@ -281,7 +306,6 @@ function gameTemplate(name,cardRuleSet,backgroundImg,opponentObj){
         this.createCards();
         console.log('gamesPlayed : ',this.gamesPlayed );
     }
-
 }
 
 function cardTemplate(parent){
@@ -323,7 +347,6 @@ function cardTemplate(parent){
         this.domElement.find('.back').addClass('flipBack');
         this.domElement.find('.front').addClass('flipFront');
     };
-
     function whichTransitionEvent(){    //not my code : listens for the event
         var t;
         var el = document.createElement('fakeelement');
@@ -339,7 +362,6 @@ function cardTemplate(parent){
             }
         }
     }
-
     this.listenEvent = function(){
         var self = this;
         var transitionEvent = whichTransitionEvent();
@@ -347,7 +369,6 @@ function cardTemplate(parent){
             self.parent.waitForFlipEvent(e.timeStamp);
         });
     };
-
     this.hideCard = function(){
         this.domElement.find('.back').removeClass('flipBack');
         this.domElement.find('.front').removeClass('flipFront');
