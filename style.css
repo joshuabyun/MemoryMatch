@@ -6,13 +6,11 @@ body{
     width: 100vw;
     margin:0;
     display:inline-block;
-    /*background-image: url('../memory_match/images/evangelion-backgrounds-00.png');*/
     background-repeat: no-repeat;
     background-size:cover;
     animation-duration: 2s;
+    animation-timing-function: ease-in;
  }
-
-
 
 @keyframes player2Background {
     from {
@@ -24,17 +22,12 @@ body{
 }
 @keyframes player1Background {
     from {
-        background-image: url('../memory_match/images/evangelion-backgrounds-03.jpg');
+        background-image: url("../memory_match/images/evangelion-backgrounds-03.jpg");
     }
     to {
         background-image: url('../memory_match/images/evangelion-backgrounds-00.png');
     }
 }
-
-
-
-
-
 
 header{
     height:20%;
@@ -68,6 +61,7 @@ header{
 }
 .back{
     opacity: .5;
+
 
 
 
