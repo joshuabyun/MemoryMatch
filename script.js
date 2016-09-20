@@ -44,7 +44,9 @@ function initialPage(){
     }).text("2P");
 
     var choosePlayers = $('<form>').attr({"id":"player"}).append(player1,player1Label,player2,player2Label);
-    var start = $("<div>").attr({"id" : "start"}).text("START");
+    var start = $("<div>").attr({"id" : "start"}).text("START").click(function(){
+        console.log($("input:radio:checked").val());
+    });
     var optionContainer = $("<div>").attr({"id" : "optionContainer"}).append(playerMode,choosePlayers,start);
     
     

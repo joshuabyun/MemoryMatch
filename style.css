@@ -81,6 +81,7 @@ body{
 .playSelector + label{
     color:white;
     margin :0 5%;
+    cursor: pointer;
 }
 .playSelector:checked + label{
     color:red;
