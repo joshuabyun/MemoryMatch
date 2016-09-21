@@ -126,8 +126,8 @@ function initInitialPageDom(){
         "id" : "1p"
     });
     var player1Label = $("<label>").attr({
-        "for" : "1p",
-        "class" : "playSelector"
+        "for" : "1p"
+        // "class" : "playSelector"
     }).text("1P");
     var player2 = $('<input>').attr({
         "class" : "playSelector",
@@ -137,17 +137,32 @@ function initInitialPageDom(){
         "id" : "2p"
     });
     var player2Label = $("<label>").attr({
-        "for" : "2p",
-        "class" : "playSelector"
+        "for" : "2p"
+        // "class" : "playSelector"
     }).text("2P");
     var choosePlayers = $('<form>').attr({"id":"player"}).append(player1,player1Label,player2,player2Label);
+    //Player Names
+    var player1Name = $('<input>').attr({
+        "class" : "playerName",
+        "id" : "player1Name",
+        "type" : "text",
+        "placeholder" : "Player 1 Name"
+    });
+    var player2Name = $('<input>').attr({
+        "class" : "playerName",
+        "id" : "player2Name",
+        "type" : "text",
+        "placeholder" : "Player 2 Name"
+    });
+    var playerNameForm = $('<form>').attr({"id" : "playerNameForm"}).append(player1Name, player2Name);
+
     //Start Button
     var start = $("<div>").attr({"id" : "start"}).text("START").click(
         function(){
         initGame($("input:radio:checked").val());
     });
     //append and fade in
-    var optionContainer = $("<div>").attr({"id" : "optionContainer"}).append(playerMode,choosePlayers,start);
+    var optionContainer = $("<div>").attr({"id" : "optionContainer"}).append(playerMode,choosePlayers, playerNameForm,start);
     var gameOptionPage = $('<section>').css({
        "opacity" : 0
     }).attr({'id' : 'gameOption'}).animate({
