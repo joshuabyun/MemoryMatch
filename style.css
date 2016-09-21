@@ -93,13 +93,24 @@ body{
 .playSelector{
     display: none;
 }
-
-
+.playerName{
+    border: 1px solid black;
+    width:50%;
+    box-sizing: border-box;
+    border-radius: 20%;
+    font-family: "Times New Roman";
+    text-align: center;
+}
+.playerName::-webkit-input-placeholder{
+    text-align: center;
+    font-size: 1.5vw;
+    font-family:"Times New Roman";
+}
 
 header{
     height:20%;
     width:100%;
-    display:in  line-block;
+    display:inline-block;
     position:relative;
 }
 /*--------------------------stats boxes-------------------------------------------*/

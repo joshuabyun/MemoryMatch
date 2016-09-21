@@ -146,13 +146,13 @@ function initInitialPageDom(){
         "class" : "playerName",
         "id" : "player1Name",
         "type" : "text",
-        "placeholder" : "Player 1 Name"
+        "placeholder" : "PLAYER 1 NAME"
     });
     var player2Name = $('<input>').attr({
         "class" : "playerName",
         "id" : "player2Name",
         "type" : "text",
-        "placeholder" : "Player 2 Name"
+        "placeholder" : "PLAYER 2 NAME"
     });
     var playerNameForm = $('<form>').attr({"id" : "playerNameForm"}).append(player1Name, player2Name);
 
