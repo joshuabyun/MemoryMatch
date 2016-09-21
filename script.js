@@ -231,6 +231,9 @@ function gameTemplate(name,cardRuleSet,backgroundImg,totalPlayers,opponentObj){
               opacity:1
               },2000,"linear",function(){
               self.applyClickToCardTemplates();
+              $("#"+self.name+"Stat").css({
+                  "background-color" : "red"
+              });
         });
     };
     this.removeDom = function(){
@@ -350,6 +353,9 @@ function gameTemplate(name,cardRuleSet,backgroundImg,totalPlayers,opponentObj){
             this.secondFlipedEventTimeStamp = timeStamp;
             console.log('second flip ends at ',this.secondFlipedEventTimeStamp);
             if(this.totalPlayerMode == "2p"){
+                $("#"+this.name+"Stat").css({
+                    "background-color" : "black"
+                });
                 this.removeDom();
                 this.callOpponentObj();
             }
