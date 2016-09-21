@@ -2,6 +2,7 @@
     font-size: 0;
 }
 body{
+    background-color:black;
     height: 100vh;
     width: 100vw;
     margin:0;
@@ -9,9 +10,9 @@ body{
     background-repeat: no-repeat;
     background-size:cover;
     animation-duration: 2s;
-    animation-timing-function: ease-in;
+    animation-timing-function: linear;
  }
-
+/*--------------------------background image animation------------------------------*/
 @keyframes player2Background {
     from {
         background-image: url('../memory_match/images/evangelion-backgrounds-00.png');
@@ -28,13 +29,22 @@ body{
         background-image: url('../memory_match/images/evangelion-backgrounds-00.png');
     }
 }
+@keyframes initialToPlayer1Background {
+    from {
+        background-image: url('../memory_match/images/evangelion-backgrounds-01.jpg');
+    }
+    to {
+        background-image: url('../memory_match/images/evangelion-backgrounds-00.png');
+    }
+}
+/*----------------------------------------------------------------------------------*/
 
 
+/*-------------------game setting --------------------------------------------------*/
 #gameOption{
     position: absolute;
     height:60%;
     width:40%;
-    /*background-color: ;*/
     top:25%;
     left:30%;
     background-image: url("../memory_match/images/evangelion-backgrounds-initialpage-00.png");
@@ -59,9 +69,6 @@ body{
     color:white;
     text-shadow: 5px 5px 10px black;
 }
-
-
-
 #player{
     display: inline-block;
     position:relative;
@@ -73,7 +80,6 @@ body{
     width:100%;
     color:white;
 }
-
 #start:hover{
     color:orangered;
     cursor: pointer;
@@ -89,6 +95,7 @@ body{
 input{
     display: none;
 }
+/*----------------------------------------------------------------------------------*/
 
 
 
@@ -107,6 +114,8 @@ header{
 .stats_container > *{
     font-size: initial;
 }
+
+/*----------------------game area / card ------------------------------------------*/
 #game-area{
     height:80%;
     width:85%;
@@ -145,7 +154,7 @@ header{
     height : 100%;
     width : 100%;
 }
-/*-------------------*/
+/*-----------------------------------card animation-------------------------*/
 .flipFront{
     transform: rotateY(0deg);
     transition:1s;
@@ -164,3 +173,4 @@ header{
     transform: rotateY(0deg);
     transition: 1s;
 }
+/*--------------------------------------------------------------------------*/

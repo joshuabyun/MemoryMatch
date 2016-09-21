@@ -1,74 +1,18 @@
 $(document).ready(function(){
-    // var game1 = new gameTemplate('game1',cardRuleSet,backgroundPics.player1);
-    // var game2 = new gameTemplate('game2',cardRuleSet,backgroundPics.player2, game1);
-    // game1.opponentObj = game2;
-    //
-    // game1.gameTemplateInit();
-    // game2.gameTemplateInit();
-    // game1.createCards();
-    // game2.createCards();
-    //
-    // game1.appendToDom(game1.domElement);
-    //
-    // applyResetBtn(game1,game2);
-    initialPage();
+    initInitialPageDom();
 });
 
-function initialPage(){
-        
-    var playerMode = $("<div>").attr({"id" : "optionTitle"}).text("PLAY MODE");
-
-    var player1 = $('<input>').attr({
-        "class" : "playSelector",
-        "type" : "radio",
-        "name" : "playerMode",
-        "value" : "1p",
-        "checked" : "checked",
-        "id" : "1p"
-    });
-    var player1Label = $("<label>").attr({
-        "for" : "1p",
-        "class" : "playSelector"
-    }).text("1P");
-
-    var player2 = $('<input>').attr({
-        "class" : "playSelector",
-        "type" : "radio",
-        "name" : "playerMode",
-        "value" : "2p",
-        "id" : "2p"
-    });
-    var player2Label = $("<label>").attr({
-        "for" : "2p",
-        "class" : "playSelector"
-    }).text("2P");
-
-    var choosePlayers = $('<form>').attr({"id":"player"}).append(player1,player1Label,player2,player2Label);
-    var start = $("<div>").attr({"id" : "start"}).text("START").click(function(){
-        console.log($("input:radio:checked").val());
-    });
-    var optionContainer = $("<div>").attr({"id" : "optionContainer"}).append(playerMode,choosePlayers,start);
-    
-    
-    var gameOptionPage = $('<section>').css({
-       "opacity" : 0
-    }).attr({'id' : 'gameOption'}).animate({
-        opacity : 1
-    },1000,"swing").append(optionContainer);
-
-    $('body').css({
-        "background-image": "url("+ this.initialPageBackground.img +")"
-    }).append(gameOptionPage);
-
-
+//------------------things that need some clarification
+//need to find a way to change background
+function applyBackground(){
+    // $('body').css({
+    //     "background-image": "url("+ this.initialPageBackground.img +")"
+    // }).append(gameOptionPage);
 }
-
-
-
-var game;
+//BACKAGROUND IMG - THESE TWO VARS CAN BE COMBINED
 var initialPageBackground = {
     img : "../memory_match/images/evangelion-backgrounds-01.jpg"
-}
+};
 var backgroundPics = {
     player1 : {
         img : '../memory_match/images/evangelion-backgrounds-00.png',
@@ -80,9 +24,27 @@ var backgroundPics = {
         img : '../memory_match/images/evangelion-backgrounds-03.jpg',
         animationClass : "player2Background"
     }
-
-
 };
+//------------------
+
+
+//NEED TO FIND A WAY TO UTILIZE THE RESET BUTTON
+// function applyResetBtn(gameTemplateName,gameTemplateName2){
+//     var self = gameTemplateName;
+//     var self2 = gameTemplateName2
+//     $('#resetBtn').click(
+//         function(){
+//             self.reset();
+//             self2.reset();
+//         }
+//     )
+// }
+
+
+//------------------------should be the first line-----------------------------
+var game1;
+var game2;
+
 var cardRuleSet = {
     eva01 : {
         name: 'eva01',
@@ -148,30 +110,105 @@ var cardRuleSet = {
         back: '../memory_match/images/nerv.png'
     }
 };
-function applyResetBtn(gameTemplateName,gameTemplateName2){
-    var self = gameTemplateName;
-    var self2 = gameTemplateName2
-    $('#resetBtn').click(
+
+
+//initial page related
+function initInitialPageDom(){
+    //Upper Text
+    var playerMode = $("<div>").attr({"id" : "optionTitle"}).text("PLAY MODE");
+    //Play mode selection
+    var player1 = $('<input>').attr({
+        "class" : "playSelector",
+        "type" : "radio",
+        "name" : "playerMode",
+        "value" : "1p",
+        "checked" : "checked",
+        "id" : "1p"
+    });
+    var player1Label = $("<label>").attr({
+        "for" : "1p",
+        "class" : "playSelector"
+    }).text("1P");
+    var player2 = $('<input>').attr({
+        "class" : "playSelector",
+        "type" : "radio",
+        "name" : "playerMode",
+        "value" : "2p",
+        "id" : "2p"
+    });
+    var player2Label = $("<label>").attr({
+        "for" : "2p",
+        "class" : "playSelector"
+    }).text("2P");
+    var choosePlayers = $('<form>').attr({"id":"player"}).append(player1,player1Label,player2,player2Label);
+    //Start Button
+    var start = $("<div>").attr({"id" : "start"}).text("START").click(
         function(){
-            self.reset();
-            self2.reset();
-        }
-    )
+        initGame($("input:radio:checked").val());
+    });
+    //append and fade in
+    var optionContainer = $("<div>").attr({"id" : "optionContainer"}).append(playerMode,choosePlayers,start);
+    var gameOptionPage = $('<section>').css({
+       "opacity" : 0
+    }).attr({'id' : 'gameOption'}).animate({
+        opacity : 1
+    },1000,"swing").append(optionContainer);
+    $('body').append(gameOptionPage);
+}
+function initGame(playerMode){
+    if(playerMode == "2p"){
+        $('#gameOption').animate({
+            opacity : 0
+        },1000,"linear",function(){
+            removeGameOptionDom();
+            init2pMode(playerMode)
+        });
+    }else{
+        $('#gameOption').animate({
+            opacity : 0
+        },1000,"linear",function(){
+            removeGameOptionDom();
+            init1pMode(playerMode);
+        });
+    }
+}
+function removeGameOptionDom(){
+    $("#gameOption").remove();
+}
+function init2pMode(playerMode){
+    var game1 = new gameTemplate('game1',cardRuleSet,backgroundPics.player1,playerMode);
+    var game2 = new gameTemplate('game2',cardRuleSet,backgroundPics.player2,playerMode, game1);
+    game1.opponentObj = game2;
+    game1.gameTemplateInit();
+    game2.gameTemplateInit();
+    game1.createCards();
+    game2.createCards();
+    game1.appendToDom(game1.domElement);
+    //applyResetBtn(game1,game2);
+}
+function init1pMode(playerMode){
+    var game1 = new gameTemplate('game1',cardRuleSet,backgroundPics.player1,playerMode);
+    game1.gameTemplateInit();
+    game1.createCards();
+    game1.appendToDom(game1.domElement);
+    //applyResetBtn(game1);
 }
 
-function gameTemplate(name,cardRuleSet,backgroundImg,opponentObj){
+
+function gameTemplate(name,cardRuleSet,backgroundImg,totalPlayers,opponentObj){
     this.domElement;
     this.firstCard ;
     this.secondCard;
     this.firstFlipedEventTimeStamp;
     this.secondFlipedEventTimeStamp;
+    this.totalPlayerMode = totalPlayers; // 1p for single player 2p for 2player mode
     this.ruleset = cardRuleSet;
     this.children = [];//
     this.childrenDomElementList =[];//would like to consolidate with this.children
     this.matchedCardCount = 0;
     this.gamesPlayed = 0;
     this.opponentObj = opponentObj;
-    this.backgroundImgObj = backgroundImg;//contains background image and its animation class
+    this.backgroundImgObj = backgroundImg;//contains background image and its animation class POSSIBLY REMOVE
     this.gameTemplateInit = function(){
         this.createDomElement();
     };
@@ -180,8 +217,8 @@ function gameTemplate(name,cardRuleSet,backgroundImg,opponentObj){
         this.domElement = gameBoard;
     };
     this.appendToDom = function(domElement){
-        this.applyBodyBackgroundAnimation();
-        this.applyBodyBackground();
+        // this.applyBodyBackgroundAnimation();
+        // this.applyBodyBackground();
         var self = this;
         console.log(domElement);
         $('body').append(domElement);
@@ -203,16 +240,16 @@ function gameTemplate(name,cardRuleSet,backgroundImg,opponentObj){
             this.children[index].removeCardDom();
         }
     };
-    this.applyBodyBackground = function(){
-      $('body').css({
-          "background-image": "url("+ this.backgroundImgObj.img +")"
-      });
-    };
-    this.applyBodyBackgroundAnimation = function(){
-        $('body').css({
-            "animation-name" : this.backgroundImgObj.animationClass
-        })
-    };
+    // this.applyBodyBackground = function(){   //change background image in the gameboard template
+    //   $('body').css({
+    //       "background-image": "url("+ this.backgroundImgObj.img +")"
+    //   });
+    // };
+    // this.applyBodyBackgroundAnimation = function(){ //background change animation in the gameboard template
+    //     $('body').css({
+    //         "animation-name" : this.backgroundImgObj.animationClass
+    //     })
+    // };
     this.callOpponentObj = function(){
         this.opponentObj.appendToDom(this.opponentObj.domElement);
     };
@@ -295,7 +332,7 @@ function gameTemplate(name,cardRuleSet,backgroundImg,opponentObj){
             setTimeout(function(){
                 self.firstCard.handleMismatchCondition(self.secondCard);
                 self.secondCard.handleMismatchCondition(self.firstCard);
-            },1000)
+                },1000)
         }
         this.waitForFlipEvent = function(timeStamp){
             if(this.firstFlipedEventTimeStamp == undefined){
@@ -304,8 +341,10 @@ function gameTemplate(name,cardRuleSet,backgroundImg,opponentObj){
             }else if(this.secondFlipedEventTimeStamp == undefined){
                 this.secondFlipedEventTimeStamp = timeStamp;
                 console.log('second flip ends at ',this.secondFlipedEventTimeStamp);
-                this.removeDom();
-                this.callOpponentObj();
+                if(this.totalPlayerMode == "2p"){
+                    this.removeDom();
+                    this.callOpponentObj();
+                }
 
                 this.firstCard.clicked = null;
                 this.secondCard.clicked = null;
@@ -320,7 +359,9 @@ function gameTemplate(name,cardRuleSet,backgroundImg,opponentObj){
     };
     this.gameWinHandler = function(){
         this.reset();
-        this.opponentObj.reset();
+        if(this.totalPlayerMode == "2p"){
+            this.opponentObj.reset();
+        }
         console.log('you won');
     };
     this.reset = function(){
@@ -335,6 +376,7 @@ function gameTemplate(name,cardRuleSet,backgroundImg,opponentObj){
         console.log('gamesPlayed : ',this.gamesPlayed );
     }
 }
+
 
 function cardTemplate(parent){
     this.parent = parent;
