@@ -445,9 +445,13 @@ function gameTemplate(templateName,playerName,cardRuleSet,backgroundImg,totalPla
         var home = $("<div>").attr({
             "id":"home"
         }).text("HOME").click(function(){
+            $("#player2Stat").animate({
+                opacity:1
+            },500,'linear');
+            $(".statBox").css({"background-color":"black"});
             self.removeWinnerDisplay();
             self.clearBoard();
-            //clear board
+
             initInitialPageDom();
 
 
