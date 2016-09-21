@@ -1,5 +1,6 @@
 *{
     font-size: 0;
+    font-family: "Times New Roman";
 }
 /*---------------body & background image animation----------------------------*/
 body{
@@ -98,13 +99,11 @@ body{
     width:50%;
     box-sizing: border-box;
     border-radius: 20%;
-    font-family: "Times New Roman";
     text-align: center;
 }
 .playerName::-webkit-input-placeholder{
     text-align: center;
     font-size: 1.5vw;
-    font-family:"Times New Roman";
 }
 
 header{
@@ -132,10 +131,25 @@ header{
     border-radius: 5%;
     text-align: center;
 }
-
-.label, .value, .statsHeader{
+.statsHeader{
+    font-size: 3vh;
+    color:white;
+}
+.label, .value{
     font-size: 2vh;
     color:white;
+}
+#homeBtn{
+    cursor: pointer;
+    font-size: 3vh;
+    color:white;
+    text-align: center;
+    border:1px solid red;
+    box-sizing: border-box;
+    border-radius:10px;
+}
+#homeBtn:hover{
+    color:orangered;
 }
 
 /*----------------------game area / card ------------------------------------------*/
@@ -196,4 +210,49 @@ header{
     transform: rotateY(0deg);
     transition: 1s;
 }
-/*--------------------------------------------------------------------------*/
+
+
+
+/*------------------------winner display page----------------------------------*/
+#winnerDisplay{
+    height:60%;
+    width:40%;
+    position: absolute;
+    top:20%;
+    left:30%;
+    border-radius: 5%;
+    box-sizing: border-box;
+    box-shadow: 10px 10px 50px #100C09;
+    background-image: url("../memory_match/images/evangelion-backgrounds-initialpage-00.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: black;
+    border:1px solid red;
+}
+#winnerContainer{
+    width:60%;
+    height:30%;
+    position:absolute;
+    top:50%;
+    left:20%;
+}
+#winnerText, #winnerName {
+    font-size: 3vh;
+    color:white;
+    width:100%;
+    text-align: center;
+    box-sizing: border-box;
+    margin:1% 0;
+}
+#playAgain, #home{
+    font-size: 3vh;
+    color:white;
+    width:100%;
+    text-align: center;
+    box-sizing: border-box;
+    margin-top:10%;
+    cursor: pointer;
+}
+#playAgain:hover ,#home:hover{
+    color:orangered;
+}

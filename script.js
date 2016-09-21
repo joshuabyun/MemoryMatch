@@ -159,7 +159,34 @@ function initInitialPageDom(){
     //Start Button
     var start = $("<div>").attr({"id" : "start"}).text("START").click(
         function(){
-        initGame($("input:radio:checked").val());
+        var gamePlayMode = $("input:radio:checked").val()
+        var name1 = $("#player1Name").val();
+        var name2 = $("#player2Name").val();
+        console.log("name1 : ",name1);
+        console.log("name2 : ",name2);
+        if(gamePlayMode == "2p"){
+            if(name1 == "" || name2 == ""){
+                alert("please input your name");
+                return;
+            }
+            else{
+                init2pGame(gamePlayMode,name1,name2);
+            }
+        }else{
+            if(name1 == ""){
+                alert("please input your name");
+                return;
+            }
+            else{
+                $("#player2Stat").animate({
+                    opacity:0
+                },500,"linear");
+                init1pGame(gamePlayMode,name1);
+            }
+        }
+        $("#player1Name").val("");
+        $("#player2Name").val("");
+
     });
     //append and fade in
     var optionContainer = $("<div>").attr({"id" : "optionContainer"}).append(playerMode,choosePlayers, playerNameForm,start);
@@ -170,48 +197,55 @@ function initInitialPageDom(){
     },1000,"swing").append(optionContainer);
     $('body').append(gameOptionPage);
 }
-function initGame(playerMode){
-    if(playerMode == "2p"){
-        $('#gameOption').animate({
-            opacity : 0
-        },1000,"linear",function(){
-            removeGameOptionDom();
-            init2pMode(playerMode)
-        });
-    }else{
-        $('#gameOption').animate({
-            opacity : 0
-        },1000,"linear",function(){
-            removeGameOptionDom();
-            init1pMode(playerMode);
-        });
-    }
+
+function init2pGame(playerMode,player1name,player2name){
+    $('#gameOption').animate({
+        opacity : 0
+    },1000,"linear",function(){
+        removeGameOptionDom();
+        init2pMode(playerMode,player1name,player2name)
+    });
 }
+function init1pGame(playerMode,player1name){
+    $('#gameOption').animate({
+        opacity : 0
+    },1000,"linear",function(){
+        removeGameOptionDom();
+        init1pMode(playerMode,player1name);
+    });
+}
+
 function removeGameOptionDom(){
     $("#gameOption").remove();
 }
-function init2pMode(playerMode){
-    var game1 = new gameTemplate('player1',cardRuleSet,backgroundPics.player1,playerMode);
-    var game2 = new gameTemplate('player2',cardRuleSet,backgroundPics.player2,playerMode, game1);
+function init2pMode(playerMode,player1Name,player2Name){
+    var game1 = new gameTemplate('player1',player1Name,cardRuleSet,backgroundPics.player1,playerMode);
+    var game2 = new gameTemplate('player2',player2Name,cardRuleSet,backgroundPics.player2,playerMode, game1);
     game1.opponentObj = game2;
     game1.gameTemplateInit();
     game2.gameTemplateInit();
     game1.createCards();
     game2.createCards();
+    game1.displayNameOnStat();
+    game2.displayNameOnStat();
     game1.appendToDom(game1.domElement);
+    console.log(game1);
+    console.log(game2);
     //applyResetBtn(game1,game2);
 }
-function init1pMode(playerMode){
-    var game1 = new gameTemplate('player1',cardRuleSet,backgroundPics.player1,playerMode);
+function init1pMode(playerMode,player1Name){
+    var game1 = new gameTemplate('player1',player1Name,cardRuleSet,backgroundPics.player1,playerMode);
     game1.gameTemplateInit();
     game1.createCards();
+    game1.displayNameOnStat();
     game1.appendToDom(game1.domElement);
     //applyResetBtn(game1);
 }
 
 
-function gameTemplate(name,cardRuleSet,backgroundImg,totalPlayers,opponentObj){
-    this.name = name;
+function gameTemplate(templateName,playerName,cardRuleSet,backgroundImg,totalPlayers,opponentObj){
+    this.name = templateName;
+    this.playerName = playerName;
     this.domElement;
     this.firstCard ;
     this.secondCard;
@@ -383,11 +417,61 @@ function gameTemplate(name,cardRuleSet,backgroundImg,totalPlayers,opponentObj){
         }
     };
     this.gameWinHandler = function(){
-        this.reset();
-        if(this.totalPlayerMode == "2p"){
-            this.opponentObj.reset();
-        }
-        console.log('you won');
+        this.createWinnerPage();
+    };
+    this.createWinnerPage = function(){
+        var self = this;
+        var winnerDisplay = $("<section>").attr({
+            "id":"winnerDisplay"
+        }).fadeIn();
+        var winnerInfoContainer = $("<div>").attr({
+            "id":"winnerContainer"
+        });
+        var winnerText = $("<div>").attr({
+            "id" : 'winnerText'
+        }).text("WINNER");
+        var winnerName = $("<div>").attr({
+            "id" : 'winnerName'
+        }).text(this.playerName );
+        var playAgain = $("<div>").attr({
+            "id":"playAgain"
+        }).text("PLAY AGAIN").click(function(){
+            self.reset();
+            self.removeWinnerDisplay();
+            if(self.totalPlayerMode == "2p"){
+                 self.opponentObj.reset();
+            }
+        });
+        var home = $("<div>").attr({
+            "id":"home"
+        }).text("HOME").click(function(){
+            self.removeWinnerDisplay();
+            self.clearBoard();
+            //clear board
+            initInitialPageDom();
+
+
+
+            // this.gamesPlayed +=1;
+            // this.clearBoard();
+            // this.children = [];
+            // this.childrenDomElementList =[];
+            // this.firstCard = null;
+            // this.secondCard = null;
+            // this.attempts = 0;
+            // this.matchedCardCount = 0;
+            // this.createCards();
+            // this.applyClickToCardTemplates();///////////////////////////////////////////////click handler
+            // console.log('gamesPlayed : ',this.gamesPlayed );
+        });
+        $("body").append(winnerDisplay.append(winnerInfoContainer.append(winnerText,winnerName,playAgain,home)));
+    };
+    this.removeWinnerDisplay = function(){
+        $('#winnerDisplay').animate({
+            opacity:0
+        },1000,"linear",function(){
+            $('#winnerDisplay').remove();
+        })
     };
     this.reset = function(){
         this.gamesPlayed +=1;
@@ -416,6 +500,10 @@ function gameTemplate(name,cardRuleSet,backgroundImg,totalPlayers,opponentObj){
         $("#"+statsDomId+" > .attempts .value").text(this.attempts);
         $("#"+statsDomId+" > .accuracy .value").text(this.accurarcy);
     };
+    this.displayNameOnStat = function(){
+        var statsDomId = this.name+"Stat";
+        $("#"+statsDomId+" > .statsHeader").text(this.playerName);
+    }
 }
 
 
