@@ -1,6 +1,7 @@
 *{
     font-size: 0;
 }
+/*---------------body & background image animation----------------------------*/
 body{
     background-color:black;
     height: 100vh;
@@ -12,7 +13,6 @@ body{
     animation-duration: 2s;
     animation-timing-function: linear;
  }
-/*--------------------------background image animation------------------------------*/
 @keyframes player2Background {
     from {
         background-image: url('../memory_match/images/evangelion-backgrounds-00.png');
@@ -37,8 +37,6 @@ body{
         background-image: url('../memory_match/images/evangelion-backgrounds-00.png');
     }
 }
-/*----------------------------------------------------------------------------------*/
-
 
 /*-------------------game setting --------------------------------------------------*/
 #gameOption{
@@ -95,7 +93,6 @@ body{
 input{
     display: none;
 }
-/*----------------------------------------------------------------------------------*/
 
 
 
@@ -105,14 +102,29 @@ header{
     display:inline-block;
     position:relative;
 }
+/*--------------------------stats boxes-------------------------------------------*/
+.stats_container *{
+    font-size: initial;
+}
 .stats_container{
     height:80%;
     width:15%;
     display:inline-block;
     position:relative;
 }
-.stats_container > *{
-    font-size: initial;
+.statBox{
+    position:relative;
+    width:100%;
+    height:35%;
+    border:1px solid red;
+    box-sizing: border-box;
+    border-radius: 5%;
+    text-align: center;
+}
+
+.label, .value, .statsHeader{
+    font-size:1.5vw;
+    color:white;
 }
 
 /*----------------------game area / card ------------------------------------------*/

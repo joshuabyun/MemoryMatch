@@ -176,8 +176,8 @@ function removeGameOptionDom(){
     $("#gameOption").remove();
 }
 function init2pMode(playerMode){
-    var game1 = new gameTemplate('game1',cardRuleSet,backgroundPics.player1,playerMode);
-    var game2 = new gameTemplate('game2',cardRuleSet,backgroundPics.player2,playerMode, game1);
+    var game1 = new gameTemplate('player1',cardRuleSet,backgroundPics.player1,playerMode);
+    var game2 = new gameTemplate('player2',cardRuleSet,backgroundPics.player2,playerMode, game1);
     game1.opponentObj = game2;
     game1.gameTemplateInit();
     game2.gameTemplateInit();
@@ -187,7 +187,7 @@ function init2pMode(playerMode){
     //applyResetBtn(game1,game2);
 }
 function init1pMode(playerMode){
-    var game1 = new gameTemplate('game1',cardRuleSet,backgroundPics.player1,playerMode);
+    var game1 = new gameTemplate('player1',cardRuleSet,backgroundPics.player1,playerMode);
     game1.gameTemplateInit();
     game1.createCards();
     game1.appendToDom(game1.domElement);
@@ -196,6 +196,7 @@ function init1pMode(playerMode){
 
 
 function gameTemplate(name,cardRuleSet,backgroundImg,totalPlayers,opponentObj){
+    this.name = name;
     this.domElement;
     this.firstCard ;
     this.secondCard;
@@ -205,15 +206,17 @@ function gameTemplate(name,cardRuleSet,backgroundImg,totalPlayers,opponentObj){
     this.ruleset = cardRuleSet;
     this.children = [];//
     this.childrenDomElementList =[];//would like to consolidate with this.children
-    this.matchedCardCount = 0;
     this.gamesPlayed = 0;
+    this.matchedCardCount = 0;
+    this.attempts = 0;
+    this.accurarcy;
     this.opponentObj = opponentObj;
     this.backgroundImgObj = backgroundImg;//contains background image and its animation class POSSIBLY REMOVE
     this.gameTemplateInit = function(){
         this.createDomElement();
     };
     this.createDomElement = function(){
-        var gameBoard = $('<section>').attr({'id' : 'game-area','name': name});
+        var gameBoard = $('<section>').attr({'id' : 'game-area','name': this.name});
         this.domElement = gameBoard;
     };
     this.appendToDom = function(domElement){
@@ -230,8 +233,6 @@ function gameTemplate(name,cardRuleSet,backgroundImg,totalPlayers,opponentObj){
               self.applyClickToCardTemplates();
         });
     };
-
-
     this.removeDom = function(){
         this.domElement.remove(); //in case of using two boards
     };
@@ -258,7 +259,6 @@ function gameTemplate(name,cardRuleSet,backgroundImg,totalPlayers,opponentObj){
             this.children[eachCardTemplate].addClickHandler();
         }
     };
-
     this.createCards = function(){
         for(var item in this.ruleset){
             for(var i = 0; i < this.ruleset[item].cardCount; i++){
@@ -314,19 +314,26 @@ function gameTemplate(name,cardRuleSet,backgroundImg,totalPlayers,opponentObj){
         }
     };
     this.checkCardsMatched = function(){
+        this.attempts++;
         if(this.firstCard.getCard() == this.secondCard.getCard()){
             console.log('cards matched');
             this.firstCard.handleMatchedCondition(this.secondCard);
             this.secondCard.handleMatchedCondition(this.firstCard);
             this.matchedCardCount+=2;
             if(this.matchedCardCount == this.children.length){
+                this.calculateStats();
+                this.displayStats();
                 console.log('you won');
                 this.gameWinHandler();
                 return;
             }
+            this.calculateStats();
+            this.displayStats();
             this.firstCard = null;
             this.secondCard = null;
         }else{
+            this.calculateStats();
+            this.displayStats();
             var self = this;
             console.log('card not matched');
             setTimeout(function(){
@@ -334,27 +341,24 @@ function gameTemplate(name,cardRuleSet,backgroundImg,totalPlayers,opponentObj){
                 self.secondCard.handleMismatchCondition(self.firstCard);
                 },1000)
         }
-        this.waitForFlipEvent = function(timeStamp){
-            if(this.firstFlipedEventTimeStamp == undefined){
-                this.firstFlipedEventTimeStamp = timeStamp;
-                console.log('first flip ends at ',this.firstFlipedEventTimeStamp);
-            }else if(this.secondFlipedEventTimeStamp == undefined){
-                this.secondFlipedEventTimeStamp = timeStamp;
-                console.log('second flip ends at ',this.secondFlipedEventTimeStamp);
-                if(this.totalPlayerMode == "2p"){
-                    this.removeDom();
-                    this.callOpponentObj();
-                }
-
-                this.firstCard.clicked = null;
-                this.secondCard.clicked = null;
-
-                this.firstCard = null;
-                this.secondCard = null;
-
-                this.firstFlipedEventTimeStamp = null;
-                this.secondFlipedEventTimeStamp = null;
+    };
+    this.waitForFlipEvent = function(timeStamp){
+        if(this.firstFlipedEventTimeStamp == undefined){
+            this.firstFlipedEventTimeStamp = timeStamp;
+            console.log('first flip ends at ',this.firstFlipedEventTimeStamp);
+        }else if(this.secondFlipedEventTimeStamp == undefined){
+            this.secondFlipedEventTimeStamp = timeStamp;
+            console.log('second flip ends at ',this.secondFlipedEventTimeStamp);
+            if(this.totalPlayerMode == "2p"){
+                this.removeDom();
+                this.callOpponentObj();
             }
+            this.firstCard.clicked = null;
+            this.secondCard.clicked = null;
+            this.firstCard = null;
+            this.secondCard = null;
+            this.firstFlipedEventTimeStamp = null;
+            this.secondFlipedEventTimeStamp = null;
         }
     };
     this.gameWinHandler = function(){
@@ -371,10 +375,26 @@ function gameTemplate(name,cardRuleSet,backgroundImg,totalPlayers,opponentObj){
         this.childrenDomElementList =[];
         this.firstCard = null;
         this.secondCard = null;
+        this.attempts = 0;
         this.matchedCardCount = 0;
         this.createCards();
+        this.applyClickToCardTemplates();///////////////////////////////////////////////click handler
         console.log('gamesPlayed : ',this.gamesPlayed );
-    }
+    };
+    this.calculateStats = function(){
+        console.log('calculation running');
+        var matches = this.matchedCardCount/2;
+        var attempts = this.attempts;
+        var decimal_accuracy = matches/attempts*100;
+        this.accurarcy = decimal_accuracy.toFixed(2) + "%";
+    };
+    this.displayStats = function(){
+        console.log('stats display running');
+        var statsDomId = this.name+"Stat";
+        $("#"+statsDomId+" > .gamesPlayed .value").text(this.gamesPlayed);
+        $("#"+statsDomId+" > .attempts .value").text(this.attempts);
+        $("#"+statsDomId+" > .accuracy .value").text(this.accurarcy);
+    };
 }
 
 
