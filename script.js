@@ -1,32 +1,61 @@
 $(document).ready(function(){
     initInitialPageDom();
-    activateSideHomeBtn();
+    applyBackgroundTimer();
+    applyClicktoPauseMusic();
+    applyClicktoPlayMusic();
 });
-
-//------------------things that need some clarification
-//need to find a way to change background
-function applyBackground(){
-    // $('body').css({
-    //     "background-image": "url("+ this.initialPageBackground.img +")"
-    // }).append(gameOptionPage);
-}
-
-var backgroundPics = {
-    player1 : {
-        img : '../memory_match/images/evangelion-backgrounds-00.png',
-        animationClass :"player1Background"
-    },
-    // background2 : '../memory_match/images/evangelion-backgrounds-01.jpg',
-    // background3 : '../memory_match/images/evangelion-backgrounds-02.jpg',
-    player2 : {
-        img : '../memory_match/images/evangelion-backgrounds-03.jpg',
-        animationClass : "player2Background"
-    }
-};
-
-//------------------------should be the first line-----------------------------
 var game1;
 var game2;
+var backgroundPics;
+var cardRuleSet
+
+
+//--------------------------background & music------------------------------
+var backgroundPics =
+    ['../memory_match/images/evangelion-backgrounds-00.png',
+    '../memory_match/images/evangelion-backgrounds-01.jpg',
+    '../memory_match/images/evangelion-backgrounds-02.jpg',
+    '../memory_match/images/evangelion-backgrounds-03.jpg',
+    '../memory_match/images/evangelion-backgrounds-04.jpg',
+    '../memory_match/images/evangelion-backgrounds-05.jpg'];
+function randomNumGen(){
+    return Math.floor(Math.random()*backgroundPics.length);
+}
+function applyBackground(randomNum){
+    $('body').css({
+        "background-image": "url("+ backgroundPics[randomNum] +")"
+    });
+}
+function applyBackgroundTimer(){
+    setInterval(function(){
+        applyBackground(randomNumGen());
+    }, 10000);
+}
+
+function applyClicktoPlayMusic(){
+    $('#playMusic').click(function(){
+        $('audio').trigger("play");
+        $("#playMusic").css({
+            "visibility": "hidden"
+        });
+        $("#pauseMusic").css({
+            "visibility": "visible"
+        });
+    })
+}
+function applyClicktoPauseMusic(){
+    $('#pauseMusic').click(function(){
+        $('audio').trigger("pause");
+        $("#pauseMusic").css({
+            "visibility": "hidden"
+        });
+        $("#playMusic").css({
+            "visibility": "visible"
+        });
+    })
+}
+
+//------------------------should be the first line-----------------------------
 
 var cardRuleSet = {
     eva01 : {
@@ -224,21 +253,6 @@ function init1pMode(playerMode,player1Name){
     game1.displayNameOnStat();
     game1.appendToDom(game1.domElement);
 }
-
-// //activating side home reset button
-// function activateSideHomeBtn(){
-//     $('#homeBtn').click(function(){
-//         $('#gameOption').remove();
-//         $("#game-area").remove();
-//         $('#winnerDisplay').remove();
-//         $("#player2Stat").animate({
-//             opacity:1
-//         },500,'linear');
-//         resetStat();
-//         $(".statBox").css({"background-color":"black"});
-//         initInitialPageDom();
-//     });
-// }
 
 //OOP Objects
 function gameTemplate(templateName,playerName,cardRuleSet,totalPlayers,opponentObj){

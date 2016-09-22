@@ -2,7 +2,7 @@
     font-size: 0;
     font-family: "Times New Roman";
 }
-/*---------------body & background image animation----------------------------*/
+/*---------------body & background image animation & music--------------------------*/
 body{
     background-color:black;
     height: 100vh;
@@ -10,34 +10,39 @@ body{
     margin:0;
     display:inline-block;
     background-repeat: no-repeat;
+    background-image: url('../memory_match/images/evangelion-backgrounds-00.png');
     background-size:cover;
-    animation-duration: 2s;
-    animation-timing-function: linear;
+    transition: 2s;
  }
-@keyframes player2Background {
-    from {
-        background-image: url('../memory_match/images/evangelion-backgrounds-00.png');
-    }
-    to {
-        background-image: url('../memory_match/images/evangelion-backgrounds-03.jpg');
-    }
+audio{
+    display: none;
 }
-@keyframes player1Background {
-    from {
-        background-image: url("../memory_match/images/evangelion-backgrounds-03.jpg");
-    }
-    to {
-        background-image: url('../memory_match/images/evangelion-backgrounds-00.png');
-    }
+.fa{
+
 }
-@keyframes initialToPlayer1Background {
-    from {
-        background-image: url('../memory_match/images/evangelion-backgrounds-01.jpg');
-    }
-    to {
-        background-image: url('../memory_match/images/evangelion-backgrounds-00.png');
-    }
+#playMusic{
+    color:white;
+    position: absolute;
+    left: 50%;
+    margin:10% 0;
+    transform: translate(-50%);
+    visibility: hidden;
+    font-size: 3vh;
+    cursor: pointer;
 }
+#pauseMusic{
+    color:white;
+    position: absolute;
+    left: 50%;
+    margin:10% 0;
+    transform: translate(-50%);
+    font-size: 3vh;
+    cursor: pointer;
+}
+#playMusic:hover, #pauseMusic:hover{
+    color:orangered;
+}
+
 
 /*-------------------game setting --------------------------------------------------*/
 #gameOption{
@@ -46,12 +51,12 @@ body{
     width:40%;
     top:20%;
     left:30%;
-    background-image: url("../memory_match/images/evangelion-backgrounds-initialpage-00.png");
+    background-image: url("../memory_match/images/evangelion-backgrounds-initialpage.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-color: black;
     border:1px solid red;
-    border-radius: 5%;
+    border-radius: 3%;
 }
 #gameOption *{
     font-size: 3vh;
@@ -130,6 +135,7 @@ header{
     box-sizing: border-box;
     border-radius: 5%;
     text-align: center;
+    background-color: black;
 }
 .statsHeader{
     font-size: 3vh;
@@ -169,14 +175,11 @@ header{
     transform-style: preserve-3d;
 }
 .back{
-    opacity: .5;
-
-
     height : 100%;
     width : 100%;
     position: absolute;
     border:2px solid black;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 .front{
     height : 100%;
@@ -185,7 +188,7 @@ header{
     transform: rotateY(-180deg);
     background: radial-gradient(#D37A1A,#D33A1A,#A30909,#5C0000,#330000,black);
     border:2px solid black;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 .back > img, .front > img{
     height : 100%;
@@ -223,7 +226,7 @@ header{
     border-radius: 5%;
     box-sizing: border-box;
     box-shadow: 10px 10px 50px #100C09;
-    background-image: url("../memory_match/images/evangelion-backgrounds-initialpage-00.png");
+    background-image: url("../memory_match/images/evangelion-backgrounds-initialpage.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-color: black;

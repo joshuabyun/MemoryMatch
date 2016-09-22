@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Memory Matching</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <meta name="Author" content="Joshua Byun">
@@ -11,6 +12,7 @@
 </head>
 <body>
 <header></header>
+
 <section class="stats_container">
     <section class="statBox" id="player1Stat">
         <div class="statsHeader" id="player1StatsHeader">Player1</div>
@@ -42,7 +44,11 @@
             <div class="value">0.00%</div>
         </div>
     </section>
-    <!--<div id="homeBtn">HOME</div>-->
+    <span id="playMusic" class="fa fa-play fa-lg"></span>
+    <span id="pauseMusic" class="fa fa-pause fa-lg"></span>
 </section>
+<audio controls autoplay loop>
+    <source src="flyMeToTheMoon.mp3" type="audio/mpeg">
+</audio>
 </body>
 </html>
