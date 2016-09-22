@@ -10,10 +10,7 @@ function applyBackground(){
     //     "background-image": "url("+ this.initialPageBackground.img +")"
     // }).append(gameOptionPage);
 }
-//BACKAGROUND IMG - THESE TWO VARS CAN BE COMBINED
-var initialPageBackground = {
-    img : "../memory_match/images/evangelion-backgrounds-01.jpg"
-};
+
 var backgroundPics = {
     player1 : {
         img : '../memory_match/images/evangelion-backgrounds-00.png',
@@ -228,20 +225,20 @@ function init1pMode(playerMode,player1Name){
     game1.appendToDom(game1.domElement);
 }
 
-//activating side home reset button
-function activateSideHomeBtn(){
-    $('#homeBtn').click(function(){
-        $('#gameOption').remove();
-        $("#game-area").remove();
-        $('#winnerDisplay').remove();
-        $("#player2Stat").animate({
-            opacity:1
-        },500,'linear');
-        resetStat();
-        $(".statBox").css({"background-color":"black"});
-        initInitialPageDom();
-    });
-}
+// //activating side home reset button
+// function activateSideHomeBtn(){
+//     $('#homeBtn').click(function(){
+//         $('#gameOption').remove();
+//         $("#game-area").remove();
+//         $('#winnerDisplay').remove();
+//         $("#player2Stat").animate({
+//             opacity:1
+//         },500,'linear');
+//         resetStat();
+//         $(".statBox").css({"background-color":"black"});
+//         initInitialPageDom();
+//     });
+// }
 
 //OOP Objects
 function gameTemplate(templateName,playerName,cardRuleSet,totalPlayers,opponentObj){
