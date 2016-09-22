@@ -3,120 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Memory Matching</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="http://learning-fuze.github.io/memory_match/v0.1/script.js"></script>
     <meta name="Author" content="Joshua Byun">
     <meta name="Description" content="Matching Robot Game">
-
-
+    <script src="script.js"></script>
 </head>
 <body>
-<!-- Header Container -->
-<header>
-    <div class="img">
-        <img src="../memory_match/images/evangelion_main.jpg">
-    </div>
-    <div class="header_content">
-        <h1>Let's Match Robots!</h1>
-        <ul>
-            <li>Setting</li>
-            <li><a href="about.html">About</a></li>
-        </ul>
-    </div>
-</header>
-<!-- Stats Container -->
+<header></header>
+
 <section class="stats_container">
-    <div class="games-played">
-        <div class="label">Games Played</div>
-        <div class="value"></div>
-    </div>
-    <div class="attempts">
-        <div class="label">Attempts</div>
-        <div class="value"></div>
-    </div>
-    <div class="accuracy">
-        <div class="label">Accuracy</div>
-        <div class="value"></div>
-    </div>
-    <div class="reset_btn_container">
-        <button class="reset">Reset Game</button>
-    </div>
+    <section class="statBox" id="player1Stat">
+        <div class="statsHeader" id="player1StatsHeader">Player1</div>
+        <div class="gamesPlayed">
+            <div class="label">Games Played</div>
+            <div class="value">0</div>
+        </div>
+        <div class="attempts">
+            <div class="label">Attempts</div>
+            <div class="value">0</div>
+        </div>
+        <div class="accuracy">
+            <div class="label">Accuracy</div>
+            <div class="value">0.00%</div>
+        </div>
+    </section>
+    <section class="statBox" id="player2Stat">
+        <div class="statsHeader" id="player2StatsHeader">Player2</div>
+        <div class="gamesPlayed">
+            <div class="label">Games Played</div>
+            <div class="value">0</div>
+        </div>
+        <div class="attempts">
+            <div class="label">Attempts</div>
+            <div class="value">0</div>
+        </div>
+        <div class="accuracy">
+            <div class="label">Accuracy</div>
+            <div class="value">0.00%</div>
+        </div>
+    </section>
+    <span id="playMusic" class="fa fa-play fa-lg"></span>
+    <span id="pauseMusic" class="fa fa-pause fa-lg"></span>
 </section>
-<!-- Game Area -->
-<section id="game-area">
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva00_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva00_01.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva01_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva01_01.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva02_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva02_01.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva06_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/eva_series_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva02_02.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva00_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva00_01.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva01_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva01_01.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva02_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva02_01.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva06_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/eva_series_00.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-    <div class="card">
-        <div class="front"><img src="../memory_match/images/active_eva02_02.png"></div>
-        <div class="back"><img src="../memory_match/images/nerv.png"></div>
-    </div>
-</section>
+<audio controls autoplay loop>
+    <source src="flyMeToTheMoon.mp3" type="audio/mpeg">
+</audio>
 </body>
 </html>
