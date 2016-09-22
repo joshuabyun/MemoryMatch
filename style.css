@@ -17,7 +17,13 @@ body{
 audio{
     display: none;
 }
-
+#musicSymbol{
+    color:white;
+    position: absolute;
+    margin:10% 0;
+    font-size: 3vh;
+    left: 15%;
+}
 #playMusic{
     color:white;
     position: absolute;
@@ -37,6 +43,7 @@ audio{
     font-size: 3vh;
     cursor: pointer;
 }
+
 #playMusic:hover, #pauseMusic:hover{
     color:orangered;
 }
