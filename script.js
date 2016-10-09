@@ -12,12 +12,12 @@ var cardRuleSet
 
 //--------------------------background & music------------------------------
 var backgroundPics =
-    ['../memory_match/images/evangelion-backgrounds-00.png',
-    '../memory_match/images/evangelion-backgrounds-01.jpg',
-    '../memory_match/images/evangelion-backgrounds-02.jpg',
-    '../memory_match/images/evangelion-backgrounds-03.jpg',
-    '../memory_match/images/evangelion-backgrounds-04.jpg',
-    '../memory_match/images/evangelion-backgrounds-05.jpg'];
+    ['images/evangelion-backgrounds-00.png',
+    'images/evangelion-backgrounds-01.jpg',
+    'images/evangelion-backgrounds-02.jpg',
+    'images/evangelion-backgrounds-03.jpg',
+    'images/evangelion-backgrounds-04.jpg',
+    'images/evangelion-backgrounds-05.jpg'];
 function randomNumGen(){
     return Math.floor(Math.random()*backgroundPics.length);
 }
@@ -61,65 +61,65 @@ var cardRuleSet = {
     eva01 : {
         name: 'eva01',
         cardCount: 2,
-        image: '../memory_match/images/active_eva00_00.png',
+        image: 'images/active_eva00_00.png',
         hideTime: 3000,
-        back: '../memory_match/images/nerv.png'
+        back: 'images/nerv.png'
     },
     eva02 : {
         name: 'eva02',
         cardCount: 2,
-        image: '../memory_match/images/active_eva00_01.png',
+        image: 'images/active_eva00_01.png',
         hideTime: 1000,
-        back: '../memory_match/images/nerv.png'
+        back: 'images/nerv.png'
     },
     eva03 : {
         name: 'eva03',
         cardCount: 2,
-        image: '../memory_match/images/active_eva01_00.png',
+        image: 'images/active_eva01_00.png',
         hideTime: 1000,
-        back: '../memory_match/images/nerv.png'
+        back: 'images/nerv.png'
     },
     eva04 : {
         name: 'eva04',
         cardCount: 2,
-        image: '../memory_match/images/active_eva01_01.png',
+        image: 'images/active_eva01_01.png',
         hideTime: 1000,
-        back: '../memory_match/images/nerv.png'
+        back: 'images/nerv.png'
     },
     eva05 : {
         name: 'eva05',
         cardCount: 2,
-        image: '../memory_match/images/active_eva02_00.png',
+        image: 'images/active_eva02_00.png',
         hideTime: 1000,
-        back: '../memory_match/images/nerv.png'
+        back: 'images/nerv.png'
     },
     eva06 : {
         name: 'eva06',
         cardCount: 2,
-        image: '../memory_match/images/active_eva02_01.png',
+        image: 'images/active_eva02_01.png',
         hideTime: 1000,
-        back: '../memory_match/images/nerv.png'
+        back: 'images/nerv.png'
     },
     eva07 : {
         name: 'eva07',
         cardCount: 2,
-        image: '../memory_match/images/active_eva02_02.png',
+        image: 'images/active_eva02_02.png',
         hideTime: 1000,
-        back: '../memory_match/images/nerv.png'
+        back: 'images/nerv.png'
     },
     eva08 : {
         name: 'eva08',
         cardCount: 2,
-        image: '../memory_match/images/active_eva06_00.png',
+        image: 'images/active_eva06_00.png',
         hideTime: 1000,
-        back: '../memory_match/images/nerv.png'
+        back: 'images/nerv.png'
     },
     eva09 : {
         name: 'eva09',
         cardCount: 2,
-        image: '../memory_match/images/eva_series_00.png',
+        image: 'images/eva_series_00.png',
         hideTime: 1000,
-        back: '../memory_match/images/nerv.png'
+        back: 'images/nerv.png'
     }
 };
 
