@@ -105,6 +105,7 @@ audio{
     display: none;
 }
 .playerName{
+    outline: none;
     border: 1px solid black;
     width:50%;
     box-sizing: border-box;
