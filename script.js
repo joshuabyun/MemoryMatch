@@ -1,6 +1,7 @@
 $(document).ready(function(){
     initInitialPageDom();
     applyBackgroundTimer();
+    $('audio').trigger("pause");
     applyClicktoPauseMusic();
     applyClicktoPlayMusic();
 });
@@ -31,7 +32,6 @@ function applyBackgroundTimer(){
         applyBackground(randomNumGen());
     }, 10000);
 }
-
 function applyClicktoPlayMusic(){
     $('#playMusic').click(function(){
         $('audio').trigger("play");
@@ -122,8 +122,16 @@ var cardRuleSet = {
         back: 'images/nerv.png'
     }
 };
-
-
+function disable2pName() {
+    document.getElementById("player2Name").disabled = true;
+    $('#player2Name').attr({"placeholder" : "FOR MULTIPLAY MODE"});
+    // $('#player2Name').disabled = true;
+}
+function enable2pName() {
+    document.getElementById("player2Name").disabled = false;
+    $('#player2Name').attr({"placeholder" : "PLAYER 2 NAME"});
+    // $('#player2Name').disabled = false;
+}
 //initial page related
 function initInitialPageDom(){
     //Upper Text
@@ -140,18 +148,22 @@ function initInitialPageDom(){
     var player1Label = $("<label>").attr({
         "for" : "1p"
         // "class" : "playSelector"
-    }).text("1P");
+    }).text("SINGLE").click(function(){
+        disable2pName();
+    });
     var player2 = $('<input>').attr({
         "class" : "playSelector",
         "type" : "radio",
         "name" : "playerMode",
         "value" : "2p",
-        "id" : "2p"
+        "id" : "2p",
     });
     var player2Label = $("<label>").attr({
         "for" : "2p"
         // "class" : "playSelector"
-    }).text("2P");
+    }).text("MULTI").click(function(){
+        enable2pName();
+    });
     var choosePlayers = $('<form>').attr({"id":"player"}).append(player1,player1Label,player2,player2Label);
     //Player Names
     var player1Name = $('<input>').attr({
@@ -160,11 +172,11 @@ function initInitialPageDom(){
         "type" : "text",
         "placeholder" : "PLAYER 1 NAME"
     });
-    var player2Name = $('<input>').attr({
+    var player2Name = $('<input disabled>').attr({
         "class" : "playerName",
         "id" : "player2Name",
         "type" : "text",
-        "placeholder" : "PLAYER 2 NAME"
+        "placeholder" : "FOR MULTIPLAY MODE"
     });
     var playerNameForm = $('<form>').attr({"id" : "playerNameForm"}).append(player1Name, player2Name);
     //Start Button

@@ -30,11 +30,11 @@ audio{
     left: 50%;
     margin:10% 0;
     transform: translate(-50%);
-    visibility: hidden;
     font-size: 3vh;
     cursor: pointer;
 }
 #pauseMusic{
+    visibility: hidden;
     color:white;
     position: absolute;
     left: 50%;
@@ -99,6 +99,9 @@ audio{
     cursor: pointer;
 }
 .playSelector:checked + label{
+    color:red;
+}
+.playSelector + label:hover{
     color:red;
 }
 .playSelector{
